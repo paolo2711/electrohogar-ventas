@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+.env
+
+# Editores y sistema
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Archivos temporales de Office
+~$*
