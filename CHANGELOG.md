@@ -4,6 +4,10 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 ## [Sin publicar]
 
+## [0.1.0] - 2026-10-22
+
+Primera versión: el diseño del sistema y la base del proyecto. Todavía no hay pantallas propias; se usa el panel de administración de Django.
+
 ### Agregado
 
 - Estructura inicial del repositorio, con README, `.gitignore` y la carpeta del diseño.
