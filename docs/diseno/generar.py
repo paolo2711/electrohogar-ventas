@@ -22,22 +22,9 @@ import bpmn
 AQUI = Path(__file__).parent
 IMG = AQUI / "img"
 
-# Estilo común de todos los diagramas UML: blanco y negro, Arial, sin sombras.
-ESTILO = """skinparam defaultFontName Arial
-skinparam defaultFontSize 13
-skinparam shadowing false
-skinparam backgroundColor #FFFFFF
-skinparam ArrowColor #333333
-skinparam ArrowThickness 1
-skinparam actorBorderColor #222222
-skinparam actorBackgroundColor #FFFFFF
-skinparam usecaseBorderColor #333333
-skinparam usecaseBackgroundColor #FFFFFF
-skinparam packageBorderColor #888888
-skinparam packageBackgroundColor #F7F7F7
-skinparam packageFontStyle bold
-skinparam rectangleBorderColor #222222
-skinparam rectangleFontStyle bold"""
+# El estilo de los diagramas UML está en estilo.iuml, que comparten los
+# diagramas generados y los escritos a mano.
+ESTILO = "!include estilo.iuml"
 
 
 def cargar():
@@ -179,6 +166,8 @@ if __name__ == "__main__":
     hechos = [documento(m), casos_de_uso(m)]
     procesos = bpmn.generar()
     print("generado:", ", ".join(hechos + [p for p, _ in procesos]))
-    imagenes = a_png([h for h in hechos if h.endswith(".puml")]) + bpmn_a_png(procesos)
+    # Se convierten todos los .puml de la carpeta: los generados y los escritos a mano.
+    pumls = sorted(p.name for p in AQUI.glob("*.puml"))
+    imagenes = a_png(pumls) + bpmn_a_png(procesos)
     if imagenes:
         print("imágenes:", ", ".join(imagenes))
