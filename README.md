@@ -6,13 +6,10 @@ Sistema web de gestión de ventas para ElectroHogar Delgado, una tienda de elect
 
 | Módulo | Qué resuelve |
 |---|---|
-| Inventario | Descuenta el stock en el momento en que se confirma una venta y avisa cuando un producto baja de su mínimo |
-| Ventas y reportes | Registra cada venta y genera reportes por periodo, producto y vendedor |
-| Cotizaciones | Guarda las cotizaciones, controla su vigencia y las convierte en venta |
-| Pedidos a distancia | Reúne en una bandeja común los pedidos que llegan por teléfono o WhatsApp, con su estado y su responsable |
-| Instalaciones y garantías | Agenda las visitas técnicas y conserva el historial de garantías de cada venta |
+| Inventario | Productos con su imagen, ingresos de mercadería y ajustes. Cada cambio de stock queda registrado con quién lo hizo |
+| Ventas y reportes | El stock se descuenta en el momento en que se confirma el cobro, y los reportes salen por periodo, producto y cajero |
 
-El acceso es por roles: gerente, vendedor, encargado de almacén, cajera y técnico.
+Lo usan tres roles: gerente, cajero y encargado de inventario. Los clientes no entran al sistema.
 
 ## Tecnología
 
@@ -39,7 +36,10 @@ Todo cambio entra a `develop` por pull request. Los mensajes de commit van en es
 
 ```
 docs/
-└── diseno/     Modelo del sistema y diagramas del diseño
+└── diseno/
+    ├── modelo.toml    Actores, casos de uso y entidades. De aquí sale todo
+    ├── generar.py     Arma el documento y los diagramas
+    └── modelo.md      El modelo en tablas, generado
 ```
 
 ## Equipo
