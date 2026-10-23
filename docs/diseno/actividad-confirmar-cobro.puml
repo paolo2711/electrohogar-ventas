@@ -1,0 +1,57 @@
+@startuml actividad-confirmar-cobro
+!include estilo.iuml
+title Confirmar cobro y descontar stock
+
+|Cajero|
+start
+:Abre la venta registrada;
+:Confirma que el cliente pagó;
+
+|Sistema|
+:Inicia una transacción;
+repeat
+  :Toma el siguiente producto de la venta;
+  :Lee su stock y lo bloquea
+  para que otra caja no lo use a la vez;
+  if (¿Alcanza el stock?) then (no)
+    :Deshace la transacción;
+    |Cajero|
+    :Ve qué producto se quedó sin stock;
+    note left
+      Pasa cuando otra caja vendió
+      las últimas unidades entre que
+      se armó la venta y se cobró.
+    end note
+    :Quita el producto o anula la venta;
+    stop
+  else (sí)
+    |Sistema|
+    :Descuenta la cantidad;
+    :Registra el movimiento de salida
+    con el cajero y la hora;
+  endif
+  |Sistema|
+repeat while (¿Quedan productos?) is (sí) not (no)
+
+if (¿Se guardó todo bien?) then (no)
+  :Deshace la transacción;
+  note left
+    No queda ni la venta confirmada
+    ni el stock descontado.
+  end note
+  |Cajero|
+  :Ve el aviso y vuelve a confirmar;
+  stop
+else (sí)
+  |Sistema|
+  :Cierra la transacción;
+  :Marca la venta como confirmada;
+  if (¿Algún producto quedó bajo su mínimo?) then (sí)
+    :Lo agrega a la lista de reposición;
+  else (no)
+  endif
+  |Cajero|
+  :Emite la boleta;
+  stop
+endif
+@enduml
