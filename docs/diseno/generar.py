@@ -4,12 +4,20 @@ Uso:
     python docs/diseno/generar.py
 
 Si la variable de entorno PLANTUML_JAR apunta a plantuml.jar, también
-convierte los diagramas a PNG en docs/diseno/img/. Hace falta Java y Graphviz.
+convierte los diagramas UML a PNG en docs/diseno/img/. Hace falta Java y Graphviz.
+
+Si la variable EDGE apunta a msedge.exe (o Edge está en su ruta de siempre),
+convierte también los BPMN a PNG con bpmn-js. Necesita internet, porque
+bpmn-js se carga desde su CDN.
 """
+import json
 import os
 import subprocess
+import tempfile
 import tomllib
 from pathlib import Path
+
+import bpmn
 
 AQUI = Path(__file__).parent
 IMG = AQUI / "img"
@@ -134,10 +142,43 @@ def a_png(archivos):
     return [Path(a).with_suffix(".png").name for a in archivos]
 
 
+EDGE_POR_DEFECTO = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+PAGINA_BPMN = """<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{{margin:0;background:#fff;overflow:hidden}} #c{{width:{w}px;height:{h}px}}</style>
+<script src="https://cdn.jsdelivr.net/npm/bpmn-js@17/dist/bpmn-viewer.production.min.js"></script>
+</head><body><div id="c"></div><script>
+const v = new BpmnJS({{ container: '#c' }});
+v.importXML({xml}).then(() => v.get('canvas').viewbox({{ x: 0, y: 0, width: {w}, height: {h} }}));
+</script></body></html>"""
+
+
+def bpmn_a_png(hechos):
+    """Dibuja cada .bpmn con bpmn-js en Edge sin ventana y guarda la captura."""
+    edge = os.environ.get("EDGE", EDGE_POR_DEFECTO)
+    if not Path(edge).exists():
+        return []
+    IMG.mkdir(exist_ok=True)
+    salida = []
+    for nombre, (w, h) in hechos:
+        xml = (AQUI / nombre).read_text(encoding="utf-8")
+        pagina = Path(tempfile.mkdtemp()) / "bpmn.html"
+        pagina.write_text(PAGINA_BPMN.format(w=w, h=h, xml=json.dumps(xml)), encoding="utf-8")
+        png = IMG / nombre.replace(".bpmn", ".png")
+        subprocess.run([edge, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+                        f"--window-size={w},{h}", "--force-device-scale-factor=2",
+                        "--virtual-time-budget=20000", f"--screenshot={png}", pagina.as_uri()],
+                       capture_output=True, timeout=120)
+        if png.exists():
+            salida.append(png.name)
+    return salida
+
+
 if __name__ == "__main__":
     m = cargar()
     hechos = [documento(m), casos_de_uso(m)]
-    print("generado:", ", ".join(hechos))
-    imagenes = a_png([h for h in hechos if h.endswith(".puml")])
+    procesos = bpmn.generar()
+    print("generado:", ", ".join(hechos + [p for p, _ in procesos]))
+    imagenes = a_png([h for h in hechos if h.endswith(".puml")]) + bpmn_a_png(procesos)
     if imagenes:
         print("imágenes:", ", ".join(imagenes))
