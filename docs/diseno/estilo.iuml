@@ -1,0 +1,30 @@
+' Estilo común de todos los diagramas UML: blanco y negro, Arial, sin sombras.
+' Cada .puml lo incluye con  !include estilo.iuml
+
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam backgroundColor #FFFFFF
+skinparam ArrowColor #333333
+skinparam ArrowThickness 1
+
+skinparam actorBorderColor #222222
+skinparam actorBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #333333
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam packageBorderColor #888888
+skinparam packageBackgroundColor #F7F7F7
+skinparam packageFontStyle bold
+skinparam rectangleBorderColor #222222
+skinparam rectangleFontStyle bold
+
+skinparam activityBorderColor #333333
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #333333
+skinparam activityDiamondBackgroundColor #FFFFFF
+skinparam activityStartColor #222222
+skinparam activityEndColor #222222
+skinparam swimlaneBorderColor #888888
+skinparam swimlaneTitleFontStyle bold
+skinparam noteBorderColor #888888
+skinparam noteBackgroundColor #F7F7F7

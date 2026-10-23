@@ -1,0 +1,58 @@
+@startuml casos-de-uso
+!include estilo.iuml
+left to right direction
+skinparam nodesep 16
+skinparam ranksep 60
+
+actor "Usuario" as USU <<abstracto>>
+actor "Encargado de inventario" as INV
+actor "Gerente" as GER
+actor "Cajero" as CAJ
+
+rectangle "ElectroHogar Ventas" {
+  package "Inventario" {
+    usecase "Registrar producto" as CU03
+    usecase "Modificar producto" as CU04
+    usecase "Registrar ingreso de mercadería" as CU05
+    usecase "Ajustar stock" as CU06
+    usecase "Registrar movimiento de stock" as CU07
+    usecase "Consultar stock" as CU08
+    usecase "Revisar productos bajo el mínimo" as CU09
+  }
+  package "Ventas y reportes" {
+    usecase "Registrar venta" as CU10
+    usecase "Confirmar cobro" as CU11
+    usecase "Anular venta" as CU12
+    usecase "Consultar ventas" as CU13
+    usecase "Generar reporte de ventas" as CU14
+  }
+  package "Acceso" {
+    usecase "Iniciar sesión" as CU01
+    usecase "Gestionar usuarios" as CU02
+  }
+}
+
+USU <|-- INV
+USU <|-- GER
+USU <|-- CAJ
+USU --> CU01
+GER --> CU02
+INV --> CU03
+INV --> CU04
+INV --> CU05
+INV --> CU06
+GER --> CU08
+CAJ --> CU08
+INV --> CU08
+INV --> CU09
+CAJ --> CU10
+CAJ --> CU11
+GER --> CU12
+GER --> CU13
+CAJ --> CU13
+GER --> CU14
+CU05 ..> CU07 : <<include>>
+CU06 ..> CU07 : <<include>>
+CU11 ..> CU07 : <<include>>
+CU12 ..> CU07 : <<include>>
+@enduml

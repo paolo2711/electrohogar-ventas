@@ -6,13 +6,10 @@ Sistema web de gestión de ventas para ElectroHogar Delgado, una tienda de elect
 
 | Módulo | Qué resuelve |
 |---|---|
-| Inventario | Descuenta el stock en el momento en que se confirma una venta y avisa cuando un producto baja de su mínimo |
-| Ventas y reportes | Registra cada venta y genera reportes por periodo, producto y vendedor |
-| Cotizaciones | Guarda las cotizaciones, controla su vigencia y las convierte en venta |
-| Pedidos a distancia | Reúne en una bandeja común los pedidos que llegan por teléfono o WhatsApp, con su estado y su responsable |
-| Instalaciones y garantías | Agenda las visitas técnicas y conserva el historial de garantías de cada venta |
+| Inventario | Productos con su imagen, ingresos de mercadería y ajustes. Cada cambio de stock queda registrado con quién lo hizo |
+| Ventas y reportes | El stock se descuenta en el momento en que se confirma el cobro, y los reportes salen por periodo, producto y cajero |
 
-El acceso es por roles: gerente, vendedor, encargado de almacén, cajera y técnico.
+Lo usan tres roles: gerente, cajero y encargado de inventario. Los clientes no entran al sistema.
 
 ## Tecnología
 
@@ -20,6 +17,23 @@ El acceso es por roles: gerente, vendedor, encargado de almacén, cajera y técn
 - PostgreSQL
 - Bootstrap para la interfaz
 - Docker para el despliegue
+
+## Cómo correrlo
+
+Con Python 3.12 o superior:
+
+```
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+El panel de administración queda en `http://127.0.0.1:8000/admin/`.
+
+Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
 
 ## Flujo de trabajo
 
@@ -39,7 +53,23 @@ Todo cambio entra a `develop` por pull request. Los mensajes de commit van en es
 
 ```
 docs/
-└── diseno/     Modelo del sistema y diagramas del diseño
+└── diseno/
+    ├── modelo.toml     Actores, casos de uso y entidades. De aquí sale todo
+    ├── procesos.toml   Procesos de negocio: carriles, tareas y flujos
+    ├── generar.py      Arma el documento y todos los diagramas
+    ├── bpmn.py         Convierte los procesos a BPMN 2.0
+    ├── modelo.md       El modelo en tablas, generado
+    ├── *.puml, *.bpmn  Diagramas generados
+    └── img/            Los diagramas en PNG
+```
+
+Los `.bpmn` se pueden abrir y editar en [bpmn.io](https://demo.bpmn.io) o en Camunda Modeler.
+
+Para regenerar todo hacen falta Java, Graphviz y PlantUML para los diagramas UML, y Edge con internet para los BPMN:
+
+```
+set PLANTUML_JAR=ruta\a\plantuml.jar
+python docs/diseno/generar.py
 ```
 
 ## Equipo
