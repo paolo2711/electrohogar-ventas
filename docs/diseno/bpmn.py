@@ -9,14 +9,14 @@ from xml.sax.saxutils import escape, quoteattr
 
 AQUI = Path(__file__).parent
 
-COL_W = 150          # ancho de cada columna
+COL_W = 162          # ancho de cada columna
 CARRIL_H = 170       # alto de cada carril
 POOL_X, POOL_Y = 20, 20
 BANDA = 30           # franja del nombre del proceso y de cada carril
 X0 = POOL_X + 2 * BANDA + 20
 
 TAMANO = {
-    "tarea": (110, 72), "manual": (110, 72), "usuario": (110, 72), "servicio": (110, 72),
+    "tarea": (132, 82), "manual": (132, 82), "usuario": (132, 82), "servicio": (132, 82),
     "inicio": (36, 36), "inicio_tiempo": (36, 36), "fin": (36, 36),
     "compuerta": (50, 50),
 }
@@ -137,7 +137,10 @@ def armar(p):
                 lb = bounds(b.cx - 55, b.abajo + 4, 110, 28)
             x.append(f'        <bpmndi:BPMNLabel>{lb}</bpmndi:BPMNLabel>')
         elif n["tipo"] == "compuerta":
-            x.append(f'        <bpmndi:BPMNLabel>{bounds(b.cx - 65, b.arriba - 34, 130, 28)}</bpmndi:BPMNLabel>')
+            # Si una rama sale hacia arriba, la etiqueta va abajo para que la flecha no la cruce.
+            sube = any(cajas[f["a"]].cy < b.cy - 1 for _, f in flujos if f["de"] == n["id"])
+            y = b.abajo + 4 if sube else b.arriba - 34
+            x.append(f'        <bpmndi:BPMNLabel>{bounds(b.cx - 65, y, 130, 28)}</bpmndi:BPMNLabel>')
         x.append('      </bpmndi:BPMNShape>')
 
     for fid, f in flujos:

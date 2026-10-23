@@ -115,151 +115,151 @@
   <bpmndi:BPMNDiagram id="Diagrama_venta_actual">
     <bpmndi:BPMNPlane id="Plano_venta_actual" bpmnElement="Colab_venta_actual">
       <bpmndi:BPMNShape id="Part_venta_actual_di" bpmnElement="Part_venta_actual" isHorizontal="true">
-        <dc:Bounds x="20" y="20" width="1750" height="680" />
+        <dc:Bounds x="20" y="20" width="1882" height="680" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_actual_CLI_di" bpmnElement="Carril_venta_actual_CLI" isHorizontal="true">
-        <dc:Bounds x="50" y="20" width="1720" height="170" />
+        <dc:Bounds x="50" y="20" width="1852" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_actual_VEN_di" bpmnElement="Carril_venta_actual_VEN" isHorizontal="true">
-        <dc:Bounds x="50" y="190" width="1720" height="170" />
+        <dc:Bounds x="50" y="190" width="1852" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_actual_CAJ_di" bpmnElement="Carril_venta_actual_CAJ" isHorizontal="true">
-        <dc:Bounds x="50" y="360" width="1720" height="170" />
+        <dc:Bounds x="50" y="360" width="1852" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_actual_ALM_di" bpmnElement="Carril_venta_actual_ALM" isHorizontal="true">
-        <dc:Bounds x="50" y="530" width="1720" height="170" />
+        <dc:Bounds x="50" y="530" width="1852" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_i1_di" bpmnElement="venta_actual_i1">
-        <dc:Bounds x="157" y="87" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="120" y="127" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="163" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="126" y="127" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t1_di" bpmnElement="venta_actual_t1">
-        <dc:Bounds x="270" y="69" width="110" height="72" />
+        <dc:Bounds x="277" y="64" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t2_di" bpmnElement="venta_actual_t2">
-        <dc:Bounds x="420" y="239" width="110" height="72" />
+        <dc:Bounds x="439" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_g1_di" bpmnElement="venta_actual_g1" isMarkerVisible="true">
-        <dc:Bounds x="600" y="250" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="560" y="216" width="130" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="642" y="250" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="602" y="216" width="130" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_f1_di" bpmnElement="venta_actual_f1">
-        <dc:Bounds x="607" y="309" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="649" y="318" width="110" height="18" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="649" y="309" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="691" y="318" width="110" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t3_di" bpmnElement="venta_actual_t3">
-        <dc:Bounds x="720" y="239" width="110" height="72" />
+        <dc:Bounds x="763" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t4_di" bpmnElement="venta_actual_t4">
-        <dc:Bounds x="870" y="69" width="110" height="72" />
+        <dc:Bounds x="925" y="64" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t5_di" bpmnElement="venta_actual_t5">
-        <dc:Bounds x="1020" y="409" width="110" height="72" />
+        <dc:Bounds x="1087" y="404" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t6_di" bpmnElement="venta_actual_t6">
-        <dc:Bounds x="1170" y="579" width="110" height="72" />
+        <dc:Bounds x="1249" y="574" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_g2_di" bpmnElement="venta_actual_g2" isMarkerVisible="true">
-        <dc:Bounds x="1350" y="590" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1310" y="556" width="130" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="1452" y="590" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1412" y="644" width="130" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t7_di" bpmnElement="venta_actual_t7">
-        <dc:Bounds x="1470" y="579" width="110" height="72" />
+        <dc:Bounds x="1573" y="574" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_f2_di" bpmnElement="venta_actual_f2">
-        <dc:Bounds x="1657" y="597" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1620" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="1783" y="597" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1746" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t8_di" bpmnElement="venta_actual_t8">
-        <dc:Bounds x="1470" y="409" width="110" height="72" />
+        <dc:Bounds x="1573" y="404" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_f3_di" bpmnElement="venta_actual_f3">
-        <dc:Bounds x="1657" y="427" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1620" y="467" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="1783" y="427" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1746" y="467" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_i2_di" bpmnElement="venta_actual_i2">
-        <dc:Bounds x="157" y="597" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="120" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="163" y="597" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="126" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_t9_di" bpmnElement="venta_actual_t9">
-        <dc:Bounds x="270" y="579" width="110" height="72" />
+        <dc:Bounds x="277" y="574" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_actual_f4_di" bpmnElement="venta_actual_f4">
-        <dc:Bounds x="457" y="597" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="420" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="487" y="597" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="450" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_1_di" bpmnElement="Flujo_venta_actual_1">
-        <di:waypoint x="193" y="105" />
-        <di:waypoint x="270" y="105" />
+        <di:waypoint x="199" y="105" />
+        <di:waypoint x="277" y="105" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_2_di" bpmnElement="Flujo_venta_actual_2">
-        <di:waypoint x="380" y="105" />
-        <di:waypoint x="400" y="105" />
-        <di:waypoint x="400" y="275" />
-        <di:waypoint x="420" y="275" />
+        <di:waypoint x="409" y="105" />
+        <di:waypoint x="424" y="105" />
+        <di:waypoint x="424" y="275" />
+        <di:waypoint x="439" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_3_di" bpmnElement="Flujo_venta_actual_3">
-        <di:waypoint x="530" y="275" />
-        <di:waypoint x="600" y="275" />
+        <di:waypoint x="571" y="275" />
+        <di:waypoint x="642" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_4_di" bpmnElement="Flujo_venta_actual_4">
-        <di:waypoint x="650" y="275" />
-        <di:waypoint x="720" y="275" />
-        <bpmndi:BPMNLabel><dc:Bounds x="656" y="255" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="692" y="275" />
+        <di:waypoint x="763" y="275" />
+        <bpmndi:BPMNLabel><dc:Bounds x="698" y="255" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_5_di" bpmnElement="Flujo_venta_actual_5">
-        <di:waypoint x="625" y="300" />
-        <di:waypoint x="625" y="309" />
-        <bpmndi:BPMNLabel><dc:Bounds x="630" y="296" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="667" y="300" />
+        <di:waypoint x="667" y="309" />
+        <bpmndi:BPMNLabel><dc:Bounds x="672" y="296" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_6_di" bpmnElement="Flujo_venta_actual_6">
-        <di:waypoint x="830" y="275" />
-        <di:waypoint x="850" y="275" />
-        <di:waypoint x="850" y="105" />
-        <di:waypoint x="870" y="105" />
+        <di:waypoint x="895" y="275" />
+        <di:waypoint x="910" y="275" />
+        <di:waypoint x="910" y="105" />
+        <di:waypoint x="925" y="105" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_7_di" bpmnElement="Flujo_venta_actual_7">
-        <di:waypoint x="980" y="105" />
-        <di:waypoint x="1000" y="105" />
-        <di:waypoint x="1000" y="445" />
-        <di:waypoint x="1020" y="445" />
+        <di:waypoint x="1057" y="105" />
+        <di:waypoint x="1072" y="105" />
+        <di:waypoint x="1072" y="445" />
+        <di:waypoint x="1087" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_8_di" bpmnElement="Flujo_venta_actual_8">
-        <di:waypoint x="1130" y="445" />
-        <di:waypoint x="1150" y="445" />
-        <di:waypoint x="1150" y="615" />
-        <di:waypoint x="1170" y="615" />
+        <di:waypoint x="1219" y="445" />
+        <di:waypoint x="1234" y="445" />
+        <di:waypoint x="1234" y="615" />
+        <di:waypoint x="1249" y="615" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_9_di" bpmnElement="Flujo_venta_actual_9">
-        <di:waypoint x="1280" y="615" />
-        <di:waypoint x="1350" y="615" />
+        <di:waypoint x="1381" y="615" />
+        <di:waypoint x="1452" y="615" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_10_di" bpmnElement="Flujo_venta_actual_10">
-        <di:waypoint x="1400" y="615" />
-        <di:waypoint x="1470" y="615" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1406" y="595" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1502" y="615" />
+        <di:waypoint x="1573" y="615" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1508" y="595" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_11_di" bpmnElement="Flujo_venta_actual_11">
-        <di:waypoint x="1375" y="590" />
-        <di:waypoint x="1375" y="445" />
-        <di:waypoint x="1470" y="445" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1380" y="510" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1477" y="590" />
+        <di:waypoint x="1477" y="445" />
+        <di:waypoint x="1573" y="445" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1482" y="510" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_12_di" bpmnElement="Flujo_venta_actual_12">
-        <di:waypoint x="1580" y="615" />
-        <di:waypoint x="1657" y="615" />
+        <di:waypoint x="1705" y="615" />
+        <di:waypoint x="1783" y="615" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_13_di" bpmnElement="Flujo_venta_actual_13">
-        <di:waypoint x="1580" y="445" />
-        <di:waypoint x="1657" y="445" />
+        <di:waypoint x="1705" y="445" />
+        <di:waypoint x="1783" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_14_di" bpmnElement="Flujo_venta_actual_14">
-        <di:waypoint x="193" y="615" />
-        <di:waypoint x="270" y="615" />
+        <di:waypoint x="199" y="615" />
+        <di:waypoint x="277" y="615" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_actual_15_di" bpmnElement="Flujo_venta_actual_15">
-        <di:waypoint x="380" y="615" />
-        <di:waypoint x="457" y="615" />
+        <di:waypoint x="409" y="615" />
+        <di:waypoint x="487" y="615" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

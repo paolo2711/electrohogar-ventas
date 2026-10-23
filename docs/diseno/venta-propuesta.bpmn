@@ -102,143 +102,143 @@
   <bpmndi:BPMNDiagram id="Diagrama_venta_propuesta">
     <bpmndi:BPMNPlane id="Plano_venta_propuesta" bpmnElement="Colab_venta_propuesta">
       <bpmndi:BPMNShape id="Part_venta_propuesta_di" bpmnElement="Part_venta_propuesta" isHorizontal="true">
-        <dc:Bounds x="20" y="20" width="2050" height="680" />
+        <dc:Bounds x="20" y="20" width="2206" height="680" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_propuesta_CLI_di" bpmnElement="Carril_venta_propuesta_CLI" isHorizontal="true">
-        <dc:Bounds x="50" y="20" width="2020" height="170" />
+        <dc:Bounds x="50" y="20" width="2176" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_propuesta_CAJ_di" bpmnElement="Carril_venta_propuesta_CAJ" isHorizontal="true">
-        <dc:Bounds x="50" y="190" width="2020" height="170" />
+        <dc:Bounds x="50" y="190" width="2176" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_propuesta_SIS_di" bpmnElement="Carril_venta_propuesta_SIS" isHorizontal="true">
-        <dc:Bounds x="50" y="360" width="2020" height="170" />
+        <dc:Bounds x="50" y="360" width="2176" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Carril_venta_propuesta_INV_di" bpmnElement="Carril_venta_propuesta_INV" isHorizontal="true">
-        <dc:Bounds x="50" y="530" width="2020" height="170" />
+        <dc:Bounds x="50" y="530" width="2176" height="170" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_i1_di" bpmnElement="venta_propuesta_i1">
-        <dc:Bounds x="157" y="87" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="120" y="127" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="163" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="126" y="127" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t1_di" bpmnElement="venta_propuesta_t1">
-        <dc:Bounds x="270" y="239" width="110" height="72" />
+        <dc:Bounds x="277" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t2_di" bpmnElement="venta_propuesta_t2">
-        <dc:Bounds x="420" y="409" width="110" height="72" />
+        <dc:Bounds x="439" y="404" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_g1_di" bpmnElement="venta_propuesta_g1" isMarkerVisible="true">
-        <dc:Bounds x="600" y="250" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="560" y="216" width="130" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="642" y="250" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="602" y="216" width="130" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_f1_di" bpmnElement="venta_propuesta_f1">
-        <dc:Bounds x="607" y="309" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="649" y="318" width="110" height="18" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="649" y="309" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="691" y="318" width="110" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t3_di" bpmnElement="venta_propuesta_t3">
-        <dc:Bounds x="720" y="239" width="110" height="72" />
+        <dc:Bounds x="763" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t4_di" bpmnElement="venta_propuesta_t4">
-        <dc:Bounds x="870" y="69" width="110" height="72" />
+        <dc:Bounds x="925" y="64" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t5_di" bpmnElement="venta_propuesta_t5">
-        <dc:Bounds x="1020" y="239" width="110" height="72" />
+        <dc:Bounds x="1087" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t6_di" bpmnElement="venta_propuesta_t6">
-        <dc:Bounds x="1170" y="409" width="110" height="72" />
+        <dc:Bounds x="1249" y="404" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_g2_di" bpmnElement="venta_propuesta_g2" isMarkerVisible="true">
-        <dc:Bounds x="1350" y="420" width="50" height="50" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1310" y="386" width="130" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="1452" y="420" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1412" y="474" width="130" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t9_di" bpmnElement="venta_propuesta_t9">
-        <dc:Bounds x="1470" y="409" width="110" height="72" />
+        <dc:Bounds x="1573" y="404" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t7_di" bpmnElement="venta_propuesta_t7">
-        <dc:Bounds x="1620" y="239" width="110" height="72" />
+        <dc:Bounds x="1735" y="234" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_t8_di" bpmnElement="venta_propuesta_t8">
-        <dc:Bounds x="1770" y="579" width="110" height="72" />
+        <dc:Bounds x="1897" y="574" width="132" height="82" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="venta_propuesta_f2_di" bpmnElement="venta_propuesta_f2">
-        <dc:Bounds x="1957" y="597" width="36" height="36" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1920" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
+        <dc:Bounds x="2107" y="597" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="2070" y="637" width="110" height="28" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_1_di" bpmnElement="Flujo_venta_propuesta_1">
-        <di:waypoint x="193" y="105" />
-        <di:waypoint x="232" y="105" />
-        <di:waypoint x="232" y="275" />
-        <di:waypoint x="270" y="275" />
+        <di:waypoint x="199" y="105" />
+        <di:waypoint x="238" y="105" />
+        <di:waypoint x="238" y="275" />
+        <di:waypoint x="277" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_2_di" bpmnElement="Flujo_venta_propuesta_2">
-        <di:waypoint x="380" y="275" />
-        <di:waypoint x="400" y="275" />
-        <di:waypoint x="400" y="445" />
-        <di:waypoint x="420" y="445" />
+        <di:waypoint x="409" y="275" />
+        <di:waypoint x="424" y="275" />
+        <di:waypoint x="424" y="445" />
+        <di:waypoint x="439" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_3_di" bpmnElement="Flujo_venta_propuesta_3">
-        <di:waypoint x="530" y="445" />
-        <di:waypoint x="565" y="445" />
-        <di:waypoint x="565" y="275" />
-        <di:waypoint x="600" y="275" />
+        <di:waypoint x="571" y="445" />
+        <di:waypoint x="606" y="445" />
+        <di:waypoint x="606" y="275" />
+        <di:waypoint x="642" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_4_di" bpmnElement="Flujo_venta_propuesta_4">
-        <di:waypoint x="650" y="275" />
-        <di:waypoint x="720" y="275" />
-        <bpmndi:BPMNLabel><dc:Bounds x="656" y="255" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="692" y="275" />
+        <di:waypoint x="763" y="275" />
+        <bpmndi:BPMNLabel><dc:Bounds x="698" y="255" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_5_di" bpmnElement="Flujo_venta_propuesta_5">
-        <di:waypoint x="625" y="300" />
-        <di:waypoint x="625" y="309" />
-        <bpmndi:BPMNLabel><dc:Bounds x="630" y="296" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="667" y="300" />
+        <di:waypoint x="667" y="309" />
+        <bpmndi:BPMNLabel><dc:Bounds x="672" y="296" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_6_di" bpmnElement="Flujo_venta_propuesta_6">
-        <di:waypoint x="830" y="275" />
-        <di:waypoint x="850" y="275" />
-        <di:waypoint x="850" y="105" />
-        <di:waypoint x="870" y="105" />
+        <di:waypoint x="895" y="275" />
+        <di:waypoint x="910" y="275" />
+        <di:waypoint x="910" y="105" />
+        <di:waypoint x="925" y="105" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_7_di" bpmnElement="Flujo_venta_propuesta_7">
-        <di:waypoint x="980" y="105" />
-        <di:waypoint x="1000" y="105" />
-        <di:waypoint x="1000" y="275" />
-        <di:waypoint x="1020" y="275" />
+        <di:waypoint x="1057" y="105" />
+        <di:waypoint x="1072" y="105" />
+        <di:waypoint x="1072" y="275" />
+        <di:waypoint x="1087" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_8_di" bpmnElement="Flujo_venta_propuesta_8">
-        <di:waypoint x="1130" y="275" />
-        <di:waypoint x="1150" y="275" />
-        <di:waypoint x="1150" y="445" />
-        <di:waypoint x="1170" y="445" />
+        <di:waypoint x="1219" y="275" />
+        <di:waypoint x="1234" y="275" />
+        <di:waypoint x="1234" y="445" />
+        <di:waypoint x="1249" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_9_di" bpmnElement="Flujo_venta_propuesta_9">
-        <di:waypoint x="1280" y="445" />
-        <di:waypoint x="1350" y="445" />
+        <di:waypoint x="1381" y="445" />
+        <di:waypoint x="1452" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_10_di" bpmnElement="Flujo_venta_propuesta_10">
-        <di:waypoint x="1400" y="445" />
-        <di:waypoint x="1470" y="445" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1406" y="425" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1502" y="445" />
+        <di:waypoint x="1573" y="445" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1508" y="425" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_11_di" bpmnElement="Flujo_venta_propuesta_11">
-        <di:waypoint x="1375" y="420" />
-        <di:waypoint x="1375" y="275" />
-        <di:waypoint x="1620" y="275" />
-        <bpmndi:BPMNLabel><dc:Bounds x="1380" y="340" width="24" height="16" /></bpmndi:BPMNLabel>
+        <di:waypoint x="1477" y="420" />
+        <di:waypoint x="1477" y="275" />
+        <di:waypoint x="1735" y="275" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1482" y="340" width="24" height="16" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_12_di" bpmnElement="Flujo_venta_propuesta_12">
-        <di:waypoint x="1580" y="445" />
-        <di:waypoint x="1600" y="445" />
-        <di:waypoint x="1600" y="275" />
-        <di:waypoint x="1620" y="275" />
+        <di:waypoint x="1705" y="445" />
+        <di:waypoint x="1720" y="445" />
+        <di:waypoint x="1720" y="275" />
+        <di:waypoint x="1735" y="275" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_13_di" bpmnElement="Flujo_venta_propuesta_13">
-        <di:waypoint x="1730" y="275" />
-        <di:waypoint x="1750" y="275" />
-        <di:waypoint x="1750" y="615" />
-        <di:waypoint x="1770" y="615" />
+        <di:waypoint x="1867" y="275" />
+        <di:waypoint x="1882" y="275" />
+        <di:waypoint x="1882" y="615" />
+        <di:waypoint x="1897" y="615" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flujo_venta_propuesta_14_di" bpmnElement="Flujo_venta_propuesta_14">
-        <di:waypoint x="1880" y="615" />
-        <di:waypoint x="1957" y="615" />
+        <di:waypoint x="2029" y="615" />
+        <di:waypoint x="2107" y="615" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
