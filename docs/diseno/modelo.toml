@@ -1,0 +1,235 @@
+# Modelo del sistema ElectroHogar Ventas.
+#
+# Todos los diagramas del diseño salen de este archivo, así que los nombres de
+# actores, casos de uso y entidades se cambian aquí y en ningún otro lado.
+# Para regenerar el documento y los diagramas: python docs/diseno/generar.py
+
+[sistema]
+nombre = "ElectroHogar Ventas"
+
+# ---------------------------------------------------------------------------
+# Actores
+# ---------------------------------------------------------------------------
+# El cliente no usa el sistema: lo opera solo el personal de la tienda.
+# "Usuario" agrupa lo que los tres roles tienen en común, que es entrar al sistema.
+
+[[actor]]
+id = "USU"
+nombre = "Usuario"
+abstracto = true
+descripcion = "Cualquier persona del personal con cuenta en el sistema."
+
+[[actor]]
+id = "GER"
+nombre = "Gerente"
+generaliza = "USU"
+descripcion = "Administra usuarios y roles, consulta todos los reportes y es el único que puede anular una venta."
+
+[[actor]]
+id = "CAJ"
+nombre = "Cajero"
+generaliza = "USU"
+descripcion = "Registra la venta, cobra y consulta stock. No modifica productos, precios ni costos."
+
+[[actor]]
+id = "INV"
+nombre = "Encargado de inventario"
+generaliza = "USU"
+descripcion = "Registra y edita productos con sus imágenes, registra los ingresos de mercadería y ajusta el stock. No vende."
+
+# ---------------------------------------------------------------------------
+# Módulos
+# ---------------------------------------------------------------------------
+
+[[modulo]]
+id = "ACC"
+nombre = "Acceso"
+
+[[modulo]]
+id = "INVM"
+nombre = "Inventario"
+
+[[modulo]]
+id = "VEN"
+nombre = "Ventas y reportes"
+
+# ---------------------------------------------------------------------------
+# Casos de uso
+# ---------------------------------------------------------------------------
+# actores: quién lo inicia.  incluye: casos que siempre se ejecutan dentro de este.
+
+[[caso]]
+id = "CU01"
+nombre = "Iniciar sesión"
+modulo = "ACC"
+actores = ["USU"]
+descripcion = "Entra con su usuario y contraseña. El sistema le muestra solo lo que su rol permite."
+
+[[caso]]
+id = "CU02"
+nombre = "Gestionar usuarios"
+modulo = "ACC"
+actores = ["GER"]
+descripcion = "Crea, edita y desactiva cuentas, y asigna el rol de cada una."
+
+[[caso]]
+id = "CU03"
+nombre = "Registrar producto"
+modulo = "INVM"
+actores = ["INV"]
+descripcion = "Da de alta un producto con su categoría, marca, modelo, precio, costo, stock mínimo e imagen."
+
+[[caso]]
+id = "CU04"
+nombre = "Modificar producto"
+modulo = "INVM"
+actores = ["INV"]
+descripcion = "Cambia los datos o la imagen de un producto, o lo desactiva. Un producto con ventas nunca se borra."
+
+[[caso]]
+id = "CU05"
+nombre = "Registrar ingreso de mercadería"
+modulo = "INVM"
+actores = ["INV"]
+incluye = ["CU07"]
+descripcion = "Anota la mercadería que llega del proveedor y suma ese stock en el momento."
+
+[[caso]]
+id = "CU06"
+nombre = "Ajustar stock"
+modulo = "INVM"
+actores = ["INV"]
+incluye = ["CU07"]
+descripcion = "Corrige el stock cuando el conteo físico no coincide con el sistema. Pide el motivo."
+
+[[caso]]
+id = "CU07"
+nombre = "Registrar movimiento de stock"
+modulo = "INVM"
+actores = []
+descripcion = "Todo cambio de stock queda como un movimiento con su tipo, cantidad, usuario y fecha. Lo ejecuta el sistema."
+
+[[caso]]
+id = "CU08"
+nombre = "Consultar stock"
+modulo = "INVM"
+actores = ["GER", "CAJ", "INV"]
+descripcion = "Busca un producto y ve cuántas unidades quedan."
+
+[[caso]]
+id = "CU09"
+nombre = "Revisar productos bajo el mínimo"
+modulo = "INVM"
+actores = ["INV"]
+descripcion = "Lista los productos cuyo stock bajó de su mínimo, para pedir reposición."
+
+[[caso]]
+id = "CU10"
+nombre = "Registrar venta"
+modulo = "VEN"
+actores = ["CAJ"]
+descripcion = "Arma la venta con los productos y cantidades. Si un producto no tiene stock suficiente, el sistema no lo deja agregar."
+
+[[caso]]
+id = "CU11"
+nombre = "Confirmar cobro"
+modulo = "VEN"
+actores = ["CAJ"]
+incluye = ["CU07"]
+descripcion = "Confirma que el cliente pagó. En la misma operación se descuenta el stock de cada producto."
+
+[[caso]]
+id = "CU12"
+nombre = "Anular venta"
+modulo = "VEN"
+actores = ["GER"]
+incluye = ["CU07"]
+descripcion = "Anula una venta confirmada y devuelve el stock. Queda registrado quién la anuló y por qué."
+
+[[caso]]
+id = "CU13"
+nombre = "Consultar ventas"
+modulo = "VEN"
+actores = ["GER", "CAJ"]
+descripcion = "Busca ventas por fecha, número o producto. El cajero ve solo las suyas."
+
+[[caso]]
+id = "CU14"
+nombre = "Generar reporte de ventas"
+modulo = "VEN"
+actores = ["GER"]
+descripcion = "Reporte por periodo, por producto y por cajero, con los productos que más se venden."
+
+# ---------------------------------------------------------------------------
+# Entidades
+# ---------------------------------------------------------------------------
+# Base para el modelo de datos. El stock de un producto solo cambia a través de
+# un movimiento, así cada cambio queda registrado con su autor.
+
+[[entidad]]
+nombre = "Usuario"
+descripcion = "Cuenta de una persona del personal."
+atributos = [
+  "nombre",
+  "usuario",
+  "rol: gerente, cajero o inventario",
+  "activo",
+]
+
+[[entidad]]
+nombre = "Categoria"
+descripcion = "Familia de productos: refrigeradoras, lavadoras, cocinas, microondas, televisores, pequeños electrodomésticos."
+atributos = ["nombre"]
+
+[[entidad]]
+nombre = "Producto"
+descripcion = "Un modelo del catálogo."
+atributos = [
+  "codigo",
+  "nombre",
+  "marca",
+  "modelo",
+  "categoria",
+  "precio de venta",
+  "costo",
+  "stock actual",
+  "stock mínimo",
+  "imagen",
+  "activo",
+]
+
+[[entidad]]
+nombre = "MovimientoStock"
+descripcion = "Cada entrada o salida de unidades de un producto."
+atributos = [
+  "producto",
+  "tipo: ingreso, ajuste, venta o anulación",
+  "cantidad",
+  "usuario",
+  "fecha y hora",
+  "motivo",
+]
+
+[[entidad]]
+nombre = "Venta"
+descripcion = "Una venta hecha en caja."
+atributos = [
+  "numero",
+  "fecha y hora",
+  "cajero",
+  "estado: registrada, confirmada o anulada",
+  "total",
+  "anulada por",
+  "motivo de anulación",
+]
+
+[[entidad]]
+nombre = "DetalleVenta"
+descripcion = "Cada producto dentro de una venta."
+atributos = [
+  "venta",
+  "producto",
+  "cantidad",
+  "precio unitario",
+  "subtotal",
+]
