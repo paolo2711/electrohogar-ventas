@@ -7,6 +7,13 @@
 [sistema]
 nombre = "ElectroHogar Ventas"
 
+# Orden en que se dibujan actores y paquetes en el diagrama general de casos de
+# uso. Con este orden las flechas casi no se cruzan; si se agrega un actor o un
+# módulo, hay que ubicarlo aquí también.
+[diagrama.casos_de_uso]
+actores = ["USU", "INV", "GER", "CAJ"]
+paquetes = ["INVM", "VEN", "ACC"]
+
 # ---------------------------------------------------------------------------
 # Actores
 # ---------------------------------------------------------------------------
