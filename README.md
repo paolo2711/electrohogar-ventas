@@ -37,9 +37,22 @@ Todo cambio entra a `develop` por pull request. Los mensajes de commit van en es
 ```
 docs/
 └── diseno/
-    ├── modelo.toml    Actores, casos de uso y entidades. De aquí sale todo
-    ├── generar.py     Arma el documento y los diagramas
-    └── modelo.md      El modelo en tablas, generado
+    ├── modelo.toml     Actores, casos de uso y entidades. De aquí sale todo
+    ├── procesos.toml   Procesos de negocio: carriles, tareas y flujos
+    ├── generar.py      Arma el documento y todos los diagramas
+    ├── bpmn.py         Convierte los procesos a BPMN 2.0
+    ├── modelo.md       El modelo en tablas, generado
+    ├── *.puml, *.bpmn  Diagramas generados
+    └── img/            Los diagramas en PNG
+```
+
+Los `.bpmn` se pueden abrir y editar en [bpmn.io](https://demo.bpmn.io) o en Camunda Modeler.
+
+Para regenerar todo hacen falta Java, Graphviz y PlantUML para los diagramas UML, y Edge con internet para los BPMN:
+
+```
+set PLANTUML_JAR=ruta\a\plantuml.jar
+python docs/diseno/generar.py
 ```
 
 ## Equipo
