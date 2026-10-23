@@ -1,0 +1,106 @@
+# Procesos de negocio en BPMN 2.0.
+#
+# Cada proceso tiene sus carriles (uno por rol) y sus nodos. "columna" es la
+# posición de izquierda a derecha y "dy" corre un nodo hacia arriba o abajo
+# dentro de su carril, para ramas que se desvían.
+#
+# Tipos de nodo:
+#   inicio, inicio_tiempo, fin, compuerta
+#   tarea     tarea sin más detalle
+#   manual    se hace a mano, sin sistema
+#   usuario   la hace una persona usando el sistema
+#   servicio  la hace el sistema solo
+
+# ---------------------------------------------------------------------------
+# Venta en tienda, como se hace hoy
+# ---------------------------------------------------------------------------
+[[proceso]]
+id = "venta-actual"
+nombre = "Venta en tienda: proceso actual"
+carriles = [
+  { id = "CLI", nombre = "Cliente" },
+  { id = "VEN", nombre = "Vendedor de piso" },
+  { id = "CAJ", nombre = "Caja" },
+  { id = "ALM", nombre = "Almacén" },
+]
+nodos = [
+  { id = "i1", tipo = "inicio",    carril = "CLI", columna = 0, nombre = "Cliente llega a la tienda" },
+  { id = "t1", tipo = "manual",    carril = "CLI", columna = 1, nombre = "Pide un producto" },
+  { id = "t2", tipo = "manual",    carril = "VEN", columna = 2, nombre = "Revisa la lista de precios impresa" },
+  { id = "g1", tipo = "compuerta", carril = "VEN", columna = 3, nombre = "¿Cree que hay unidades?" },
+  { id = "f1", tipo = "fin",       carril = "VEN", columna = 3, dy = 52, nombre = "Venta perdida", etiqueta = "derecha" },
+  { id = "t3", tipo = "manual",    carril = "VEN", columna = 4, nombre = "Anota la venta en el talonario" },
+  { id = "t4", tipo = "manual",    carril = "CLI", columna = 5, nombre = "Lleva la nota a caja" },
+  { id = "t5", tipo = "manual",    carril = "CAJ", columna = 6, nombre = "Cobra y emite la boleta" },
+  { id = "t6", tipo = "manual",    carril = "ALM", columna = 7, nombre = "Busca el producto en almacén" },
+  { id = "g2", tipo = "compuerta", carril = "ALM", columna = 8, nombre = "¿Está el producto?" },
+  { id = "t7", tipo = "manual",    carril = "ALM", columna = 9, nombre = "Entrega el producto" },
+  { id = "f2", tipo = "fin",       carril = "ALM", columna = 10, nombre = "Producto entregado" },
+  { id = "t8", tipo = "manual",    carril = "CAJ", columna = 9, nombre = "Devuelve el dinero" },
+  { id = "f3", tipo = "fin",       carril = "CAJ", columna = 10, nombre = "Venta anulada" },
+  { id = "i2", tipo = "inicio_tiempo", carril = "ALM", columna = 0, nombre = "Cierre del día" },
+  { id = "t9", tipo = "manual",    carril = "ALM", columna = 1, nombre = "Actualiza el Excel con las salidas del día" },
+  { id = "f4", tipo = "fin",       carril = "ALM", columna = 2, nombre = "Stock actualizado" },
+]
+flujos = [
+  { de = "i1", a = "t1" },
+  { de = "t1", a = "t2" },
+  { de = "t2", a = "g1" },
+  { de = "g1", a = "t3", nombre = "Sí" },
+  { de = "g1", a = "f1", nombre = "No" },
+  { de = "t3", a = "t4" },
+  { de = "t4", a = "t5" },
+  { de = "t5", a = "t6" },
+  { de = "t6", a = "g2" },
+  { de = "g2", a = "t7", nombre = "Sí" },
+  { de = "g2", a = "t8", nombre = "No" },
+  { de = "t7", a = "f2" },
+  { de = "t8", a = "f3" },
+  { de = "i2", a = "t9" },
+  { de = "t9", a = "f4" },
+]
+
+# ---------------------------------------------------------------------------
+# Venta en tienda, con el sistema
+# ---------------------------------------------------------------------------
+[[proceso]]
+id = "venta-propuesta"
+nombre = "Venta en tienda: proceso con el sistema"
+carriles = [
+  { id = "CLI", nombre = "Cliente" },
+  { id = "CAJ", nombre = "Cajero" },
+  { id = "SIS", nombre = "Sistema" },
+  { id = "INV", nombre = "Encargado de inventario" },
+]
+nodos = [
+  { id = "i1", tipo = "inicio",    carril = "CLI", columna = 0, nombre = "Cliente elige un producto" },
+  { id = "t1", tipo = "usuario",   carril = "CAJ", columna = 1, nombre = "Busca el producto en el sistema" },
+  { id = "t2", tipo = "servicio",  carril = "SIS", columna = 2, nombre = "Muestra precio y stock" },
+  { id = "g1", tipo = "compuerta", carril = "CAJ", columna = 3, nombre = "¿Hay stock?" },
+  { id = "f1", tipo = "fin",       carril = "CAJ", columna = 3, dy = 52, nombre = "Venta no realizada", etiqueta = "derecha" },
+  { id = "t3", tipo = "usuario",   carril = "CAJ", columna = 4, nombre = "Registra la venta" },
+  { id = "t4", tipo = "tarea",     carril = "CLI", columna = 5, nombre = "Paga" },
+  { id = "t5", tipo = "usuario",   carril = "CAJ", columna = 6, nombre = "Confirma el cobro" },
+  { id = "t6", tipo = "servicio",  carril = "SIS", columna = 7, nombre = "Descuenta el stock y registra el movimiento" },
+  { id = "g2", tipo = "compuerta", carril = "SIS", columna = 8, nombre = "¿Quedó bajo el mínimo?" },
+  { id = "t9", tipo = "servicio",  carril = "SIS", columna = 9, nombre = "Lo agrega a la lista de reposición" },
+  { id = "t7", tipo = "usuario",   carril = "CAJ", columna = 10, nombre = "Emite la boleta" },
+  { id = "t8", tipo = "manual",    carril = "INV", columna = 11, nombre = "Entrega el producto" },
+  { id = "f2", tipo = "fin",       carril = "INV", columna = 12, nombre = "Producto entregado" },
+]
+flujos = [
+  { de = "i1", a = "t1" },
+  { de = "t1", a = "t2" },
+  { de = "t2", a = "g1" },
+  { de = "g1", a = "t3", nombre = "Sí" },
+  { de = "g1", a = "f1", nombre = "No" },
+  { de = "t3", a = "t4" },
+  { de = "t4", a = "t5" },
+  { de = "t5", a = "t6" },
+  { de = "t6", a = "g2" },
+  { de = "g2", a = "t9", nombre = "Sí" },
+  { de = "g2", a = "t7", nombre = "No" },
+  { de = "t9", a = "t7" },
+  { de = "t7", a = "t8" },
+  { de = "t8", a = "f2" },
+]
