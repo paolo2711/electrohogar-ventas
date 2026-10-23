@@ -49,6 +49,11 @@ El repositorio sigue Gitflow.
 
 Todo cambio entra a `develop` por pull request. Los mensajes de commit van en español y describen qué se hizo.
 
+## Comunicación del equipo
+
+- **Slack**, espacio `electrohogar-ventas`. El canal `#todo-electrohogar-ventas` tiene conectada la app de GitHub, así que avisa solo cuando se abre una tarjeta o una pull request, cuando entra un commit a `main` y cuando se publica una versión.
+- **Tablero** en GitHub Projects, con una tarjeta por tarea, su responsable y su prioridad.
+
 ## Estructura
 
 ```
