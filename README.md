@@ -18,6 +18,23 @@ Lo usan tres roles: gerente, cajero y encargado de inventario. Los clientes no e
 - Bootstrap para la interfaz
 - Docker para el despliegue
 
+## Cómo correrlo
+
+Con Python 3.12 o superior:
+
+```
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+El panel de administración queda en `http://127.0.0.1:8000/admin/`.
+
+Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
+
 ## Flujo de trabajo
 
 El repositorio sigue Gitflow.
