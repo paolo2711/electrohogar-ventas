@@ -12,3 +12,4 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 - Diagrama general de casos de uso.
 - Proceso de venta en tienda en BPMN 2.0, el actual y el que usa el sistema.
 - Diagrama de actividades de confirmar el cobro y descontar el stock, con los casos de stock insuficiente y de falla a la mitad.
+- Proyecto Django con las apps de inventario y ventas. El stock solo cambia por movimientos registrados, y confirmar una venta descuenta todo o nada.
