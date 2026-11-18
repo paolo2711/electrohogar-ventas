@@ -22,6 +22,7 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 - La pantalla de entrada usaba recursos típicos de plantilla (#30).
 - La venta guardaba la hora en que se agregó el primer producto en vez de la del cobro, y podía caer en el día anterior en el cuadre (#37).
+- El código del producto se partía en dos líneas en la lista completa de Productos y stock (#47).
 
 ## [0.1.0] - 2026-10-22
 
