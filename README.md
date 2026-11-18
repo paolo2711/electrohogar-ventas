@@ -1,5 +1,7 @@
 # ElectroHogar Ventas
 
+[![Pruebas](https://github.com/paolo2711/electrohogar-ventas/actions/workflows/pruebas.yml/badge.svg?branch=develop)](https://github.com/paolo2711/electrohogar-ventas/actions/workflows/pruebas.yml)
+
 Sistema web de gestión de ventas para ElectroHogar Delgado, una tienda de electrodomésticos y línea blanca de San Miguel, Lima. La tienda se trabaja como caso de estudio: no existe y sus datos no corresponden a un negocio real.
 
 ## Módulos
@@ -47,7 +49,7 @@ El repositorio sigue Gitflow.
 | `release/*` | Preparación de una versión antes de pasarla a `main` |
 | `hotfix/*` | Correcciones urgentes sobre `main` |
 
-Todo cambio entra a `develop` por pull request. Los mensajes de commit van en español y describen qué se hizo.
+Todo cambio entra a `develop` por pull request, y GitHub Actions corre las pruebas en cada una (`.github/workflows/pruebas.yml`). Si fallan, no se fusiona. Los mensajes de commit van en español y describen qué se hizo.
 
 ## Comunicación del equipo
 

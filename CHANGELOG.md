@@ -4,6 +4,10 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 ## [Sin publicar]
 
+### Agregado
+
+- Workflow de GitHub Actions que revisa la configuración, las migraciones y corre las pruebas en cada push y pull request hacia `develop` y `main`.
+
 ## [0.1.0] - 2026-10-22
 
 Primera versión: el diseño del sistema y la base del proyecto. Todavía no hay pantallas propias; se usa el panel de administración de Django.
