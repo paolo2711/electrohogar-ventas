@@ -2,14 +2,14 @@
    si algo cambia, se cambia allá primero. */
 
 :root {
-  --papel: #F4EFE6;
-  --hoja: #FBF8F2;
-  --renglon: #DCD3C4;
-  --tinta: #221E19;
-  --tinta-suave: #6A6158;
-  --sello: #A8442A;
-  --sello-oscuro: #8A3722;
-  --sello-claro: #F2DDD3;
+  --papel: #F1F0EC;
+  --hoja: #FAFAF7;
+  --renglon: #D6D3CB;
+  --tinta: #1E1F22;
+  --tinta-suave: #5F6168;
+  --sello: #1F4F7A;
+  --sello-oscuro: #173C5E;
+  --sello-claro: #DCE6EF;
   --bien: #2E6B45;
   --aviso: #8A6414;
   --falla: #9B2C2C;

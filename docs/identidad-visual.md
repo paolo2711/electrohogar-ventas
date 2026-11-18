@@ -17,7 +17,7 @@ Cuatro rasgos, y lo que cada uno decide:
 
 ## Referencias
 
-- **El talonario y la boleta.** El panel de la venta se dibuja como una hoja de talonario: papel, renglones punteados y el total al pie, separado por una línea de tinta. El color de acento sale del sello de la boleta y se usa solo en el botón principal.
+- **El talonario y la boleta.** El panel de la venta se dibuja como una hoja de talonario: papel, renglones punteados y el total al pie, separado por una línea de tinta. El color de acento es el azul de la copia en papel carbón, la que se queda la tienda, y se usa solo en el botón principal y en lo elegido.
 - **La tarjeta de kárdex.** El control de existencias que llevan a mano muchas tiendas en el Perú: entradas, salidas y saldo en columnas. En la pantalla del encargado, la ficha de cada producto sigue ese formato, y es la única caja de esa pantalla.
 - **Square Point of Sale.** En su rediseño de 2026 la venta en curso queda siempre visible junto a la lista de productos, para armar el pedido con menos pasos ([notas de versión de Square](https://squareup.com/us/en/release-notes/release-notes-september-10th)). Tomamos esa distribución: productos a la izquierda, venta a la derecha.
 - **Atkinson Hyperlegible.** Tipografía del Braille Institute pensada para que cada letra se distinga de las demás, incluso con poca vista o con prisa. Es libre (SIL OFL 1.1) y tiene versión monoespaciada para cifras y códigos ([Braille Institute](https://www.brailleinstitute.org/freefont/)).
@@ -28,19 +28,21 @@ Se usan solo estas variables (en `static/css/base.css`). Ningún color se escrib
 
 | Variable | Valor | Uso |
 |---|---|---|
-| `--papel` | `#F4EFE6` | Fondo de la página |
-| `--hoja` | `#FBF8F2` | Paneles y tablas, como una hoja sobre el mostrador |
-| `--renglon` | `#DCD3C4` | Bordes y separadores |
-| `--tinta` | `#221E19` | Texto principal |
-| `--tinta-suave` | `#6A6158` | Texto secundario, etiquetas |
-| `--sello` | `#A8442A` | Acción principal y lo que hay que mirar primero. Solo uno por pantalla |
-| `--sello-oscuro` | `#8A3722` | El mismo botón al pasar el mouse o al presionarlo |
-| `--sello-claro` | `#F2DDD3` | Fondo de la fila seleccionada |
+| `--papel` | `#F1F0EC` | Fondo de la página |
+| `--hoja` | `#FAFAF7` | Paneles y tablas, como una hoja sobre el mostrador |
+| `--renglon` | `#D6D3CB` | Bordes y separadores |
+| `--tinta` | `#1E1F22` | Texto principal |
+| `--tinta-suave` | `#5F6168` | Texto secundario, etiquetas |
+| `--sello` | `#1F4F7A` | Acción principal y lo que hay que mirar primero. Solo uno por pantalla |
+| `--sello-oscuro` | `#173C5E` | El mismo botón al pasar el mouse o al presionarlo |
+| `--sello-claro` | `#DCE6EF` | Fondo de la fila seleccionada |
 | `--bien` | `#2E6B45` | Confirmaciones ("Venta confirmada") |
 | `--aviso` | `#8A6414` | Stock bajo el mínimo |
 | `--falla` | `#9B2C2C` | Errores y stock insuficiente |
 
 Los estados se dicen con texto y, si hace falta, con el color del texto. No se usan píldoras de colores ni el semáforo verde, amarillo y rojo.
+
+La primera versión usaba un terracota de sello con la fila elegida en rosa claro y un papel crema. Al ver las cuatro pantallas juntas el conjunto se veía demasiado rosado y poco serio para una tienda de electrodomésticos (#39), así que se pasó al azul de la copia y a un papel más neutro.
 
 Contraste comprobado: `--tinta` y `--tinta-suave` sobre `--papel` superan 4,5:1, y el texto blanco sobre `--sello` también.
 
