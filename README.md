@@ -29,11 +29,19 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py cargar_demo
 python manage.py runserver
 ```
 
 El panel de administración queda en `http://127.0.0.1:8000/admin/`.
+
+`cargar_demo` crea los tres roles, 15 productos de la tienda y un usuario por rol, todos con la clave `electrohogar2026` (solo para la base local):
+
+| Usuario | Rol |
+|---|---|
+| `rdelgado` | Gerente |
+| `mquispe` | Cajero |
+| `jflores` | Encargado de inventario |
 
 Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
 
