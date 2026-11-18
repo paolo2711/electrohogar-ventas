@@ -1,18 +1,20 @@
-"""Pantalla de venta del cajero (casos de uso CU10 Registrar venta y CU11 Confirmar cobro)."""
+"""Pantallas de ventas: la venta del cajero (CU10 y CU11) y las ventas del día del gerente (CU12)."""
+from datetime import date, timedelta
 from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from django.db.models import Q
+from django.db.models import Count, Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from inventario.models import Producto
 from inventario.servicios import StockInsuficiente
 
 from .models import DetalleVenta, Venta
-from .servicios import VentaNoValida, confirmar_venta
+from .servicios import VentaNoValida, anular_venta, confirmar_venta
 from .templatetags.caja import soles
 
 CLAVE = 'venta_en_curso'
@@ -102,3 +104,50 @@ def redirect_a_venta(request):
     """Vuelve a la venta conservando la búsqueda que tenía el cajero."""
     q = request.POST.get('q', '')
     return redirect(reverse('ventas:venta') + (f'?{urlencode({"q": q})}' if q else ''))
+
+
+def dia_pedido(request):
+    """El día que pidió ver el gerente (?dia=AAAA-MM-DD), o hoy."""
+    try:
+        return date.fromisoformat(request.GET.get('dia', ''))
+    except ValueError:
+        return timezone.localdate()
+
+
+@permission_required('ventas.change_venta', raise_exception=True)
+def del_dia(request):
+    dia = dia_pedido(request)
+    del_dia = Venta.objects.filter(fecha__date=dia, estado__in=[Venta.CONFIRMADA, Venta.ANULADA])
+    ventas = del_dia.select_related('cajero').annotate(unidades=Sum('detalles__cantidad'))
+    cobradas = del_dia.filter(estado=Venta.CONFIRMADA)
+    elegida = del_dia.select_related('cajero', 'anulada_por').filter(pk=request.GET.get('v')).first() if request.GET.get('v', '').isdigit() else None
+    return render(request, 'ventas/del_dia.html', {
+        'dia': dia,
+        'hoy': timezone.localdate(),
+        'anterior': dia - timedelta(days=1),
+        'siguiente': dia + timedelta(days=1),
+        'ventas': ventas,
+        'cobrado': cobradas.aggregate(t=Sum('total'))['t'] or 0,
+        'cuantas': cobradas.count(),
+        'anuladas': del_dia.filter(estado=Venta.ANULADA).aggregate(n=Count('id'), t=Sum('total')),
+        # Para el cuadre de caja: lo que cobró cada cajero.
+        'por_caja': cobradas.values('cajero__first_name', 'cajero__username')
+                            .annotate(n=Count('id'), t=Sum('total')).order_by('-t'),
+        'elegida': elegida,
+        'detalles': elegida.detalles.select_related('producto') if elegida else [],
+    })
+
+
+@require_POST
+@permission_required('ventas.change_venta', raise_exception=True)
+def anular(request, venta_id):
+    venta = get_object_or_404(Venta, pk=venta_id)
+    motivo = request.POST.get('motivo', '').strip()
+    try:
+        anular_venta(venta, request.user, motivo)
+    except VentaNoValida as e:
+        messages.error(request, f'No se anuló: {e}.')
+    else:
+        messages.success(request, f'Venta {venta.pk:04d} anulada. Los productos volvieron al stock.')
+    dia = timezone.localtime(venta.fecha).date()
+    return redirect(reverse('ventas:del_dia') + '?' + urlencode({'dia': dia.isoformat(), 'v': venta.pk}))

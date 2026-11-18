@@ -33,15 +33,15 @@ python manage.py cargar_demo
 python manage.py runserver
 ```
 
-El panel de administración queda en `http://127.0.0.1:8000/admin/`.
+Se entra por `http://127.0.0.1:8000/` y cada usuario cae en la pantalla de su rol. El panel de administración, para crear productos y usuarios, queda en `/admin/`.
 
 `cargar_demo` crea los tres roles, 15 productos de la tienda y un usuario por rol, todos con la clave `electrohogar2026` (solo para la base local):
 
-| Usuario | Rol |
-|---|---|
-| `rdelgado` | Gerente |
-| `mquispe` | Cajero |
-| `jflores` | Encargado de inventario |
+| Usuario | Rol | Entra a |
+|---|---|---|
+| `rdelgado` | Gerente | Ventas del día, con anulación |
+| `mquispe` | Cajero | Venta |
+| `jflores` | Encargado de inventario | Productos y stock |
 
 Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
 

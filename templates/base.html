@@ -16,6 +16,7 @@
     <a class="barra__tienda" href="/">ElectroHogar Delgado</a>
     {% with vista=request.resolver_match.view_name %}
     <nav aria-label="Pantallas">
+      {% if perms.ventas.change_venta %}<a href="{% url 'ventas:del_dia' %}" {% if vista == 'ventas:del_dia' %}aria-current="page"{% endif %}>Ventas del día</a>{% endif %}
       {% if perms.ventas.add_venta %}<a href="{% url 'ventas:venta' %}" {% if vista == 'ventas:venta' %}aria-current="page"{% endif %}>Venta</a>{% endif %}
       {% if perms.inventario.view_movimientostock %}<a href="{% url 'inventario:productos' %}" {% if vista == 'inventario:productos' %}aria-current="page"{% endif %}>Productos y stock</a>{% endif %}
       {% if user.is_staff %}<a href="{% url 'admin:index' %}">Administración</a>{% endif %}

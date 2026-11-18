@@ -4,11 +4,10 @@ from django.urls import NoReverseMatch, reverse
 
 from inventario.roles import CAJERO, GERENTE, INVENTARIO, rol_de
 
-# Pantalla de entrada de cada rol. El gerente usa el panel de administración
-# mientras no tenga su pantalla propia.
+# Pantalla de entrada de cada rol.
 PANTALLA_DE = {
     CAJERO: 'ventas:venta',
-    GERENTE: 'admin:index',
+    GERENTE: 'ventas:del_dia',
     INVENTARIO: 'inventario:productos',
 }
 

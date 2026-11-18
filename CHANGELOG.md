@@ -13,6 +13,7 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 - Pantalla de venta del cajero: búsqueda, venta en curso como hoja de talonario, control de stock al agregar y cobro con F9.
 - Pantalla de productos y stock del encargado: filtro de lo que hay que pedir, kárdex de cada producto con su saldo, ingreso de mercadería y ajuste por conteo. El gerente la ve sin poder registrar.
 - Menú de la barra según los permisos de cada rol.
+- Ventas del día para el gerente: lo cobrado, el cuadre por caja, el detalle de cada venta y la anulación con motivo, que devuelve los productos al stock.
 
 ### Corregido
 
