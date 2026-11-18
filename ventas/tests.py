@@ -141,3 +141,60 @@ class PantallaDeVenta(TestCase):
         r = self.client.post(reverse('ventas:cobrar'), follow=True)
         self.assertContains(r, 'No se cobró')
         self.assertEqual(Venta.objects.get().estado, Venta.REGISTRADA)
+
+
+class VentasDelDia(TestCase):
+    """Lo que ve el gerente: el día, el cuadre por caja y la anulación."""
+
+    @classmethod
+    def setUpTestData(cls):
+        from io import StringIO
+
+        from django.core.management import call_command
+        call_command('cargar_demo', stdout=StringIO())
+
+    def setUp(self):
+        usuarios = get_user_model().objects
+        self.cajera = usuarios.get(username='mquispe')
+        self.licuadora = Producto.objects.get(codigo='PEQ-001')  # S/ 189, quedan 12
+        self.v1 = self.cobrada(2)
+        self.v2 = self.cobrada(1)
+        self.client.login(username='rdelgado', password='electrohogar2026')
+
+    def cobrada(self, cantidad):
+        v = Venta.objects.create(cajero=self.cajera)
+        DetalleVenta.objects.create(venta=v, producto=self.licuadora, cantidad=cantidad,
+                                    precio_unitario=self.licuadora.precio_venta)
+        return confirmar_venta(v, self.cajera)
+
+    def test_muestra_lo_cobrado_hoy_y_el_cuadre_por_caja(self):
+        Venta.objects.create(cajero=self.cajera)  # en curso, no cuenta
+        r = self.client.get(reverse('ventas:del_dia'))
+        self.assertEqual(r.context['cuantas'], 2)
+        self.assertEqual(r.context['cobrado'], Decimal('567.00'))
+        self.assertEqual(list(r.context['por_caja'])[0]['n'], 2)
+        self.assertEqual(len(r.context['ventas']), 2)
+
+    def test_otro_dia_sale_vacio(self):
+        r = self.client.get(reverse('ventas:del_dia'), {'dia': '2026-01-05'})
+        self.assertEqual(r.context['cuantas'], 0)
+        self.assertContains(r, 'No hubo ventas')
+
+    def test_anular_devuelve_el_stock_y_sale_del_total(self):
+        r = self.client.post(reverse('ventas:anular', args=[self.v1.pk]), {'motivo': 'Se cobró dos veces'}, follow=True)
+        self.assertContains(r, 'anulada')
+        self.licuadora.refresh_from_db()
+        self.assertEqual(self.licuadora.stock_actual, 11)
+        self.assertEqual(r.context['cobrado'], Decimal('189.00'))
+        self.assertEqual(r.context['anuladas']['n'], 1)
+
+    def test_sin_motivo_no_se_anula(self):
+        r = self.client.post(reverse('ventas:anular', args=[self.v1.pk]), {'motivo': ' '}, follow=True)
+        self.assertContains(r, 'No se anuló')
+        self.v1.refresh_from_db()
+        self.assertEqual(self.v1.estado, Venta.CONFIRMADA)
+
+    def test_la_cajera_no_ve_las_ventas_del_dia(self):
+        self.client.login(username='mquispe', password='electrohogar2026')
+        self.assertEqual(self.client.get(reverse('ventas:del_dia')).status_code, 403)
+        self.assertEqual(self.client.post(reverse('ventas:anular', args=[self.v1.pk]), {'motivo': 'x'}).status_code, 403)

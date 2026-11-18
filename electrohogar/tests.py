@@ -15,9 +15,9 @@ class InicioDeSesion(TestCase):
         r = self.client.post(reverse('entrar'), {'username': 'mquispe', 'password': 'otra'})
         self.assertContains(r, 'Usuario o clave incorrectos')
 
-    def test_el_gerente_entra_al_panel_de_administracion(self):
+    def test_el_gerente_entra_a_las_ventas_del_dia(self):
         r = self.client.post(reverse('entrar'), {'username': 'rdelgado', 'password': 'electrohogar2026'}, follow=True)
-        self.assertEqual(r.redirect_chain[-1][0], reverse('admin:index'))
+        self.assertEqual(r.redirect_chain[-1][0], reverse('ventas:del_dia'))
 
     def test_sin_rol_se_le_explica_que_pida_uno(self):
         get_user_model().objects.create_user('nuevo', password='x')
