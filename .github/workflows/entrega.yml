@@ -1,0 +1,95 @@
+# Entrega continua. Al publicar un tag v* (por ejemplo v0.2.0):
+#   1. corre las mismas pruebas del CI (pruebas.yml),
+#   2. construye la imagen Docker y la sube a GitHub Packages,
+#   3. crea la release con las notas de esa versión en el CHANGELOG.
+# En las pull request que tocan la imagen solo la construye, para saber que no está rota.
+name: Entrega
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+    branches: [develop, main]
+    paths: [Dockerfile, .dockerignore, requirements.txt, .github/workflows/entrega.yml]
+  workflow_dispatch:
+
+env:
+  IMAGEN: ghcr.io/${{ github.repository }}
+
+jobs:
+  pruebas:
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/pruebas.yml
+
+  imagen:
+    needs: pruebas
+    # Corre también cuando no hubo pruebas aquí (en las PR ya las corre pruebas.yml).
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Traer el código
+        uses: actions/checkout@v4
+
+      - name: Preparar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Entrar a GitHub Packages
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Nombres de la imagen
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGEN }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=ref,event=pr
+
+      - name: Construir (y en un tag, publicar)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  release:
+    needs: imagen
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    # El entorno deja registrada cada entrega en la pestaña Deployments del repositorio.
+    environment:
+      name: produccion
+      url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+    permissions:
+      contents: write
+    steps:
+      - name: Traer el código
+        uses: actions/checkout@v4
+
+      - name: Sacar las notas de esta versión del CHANGELOG
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[" v "\\]" {dentro=1; next}
+            dentro && /^## \[/ {exit}
+            dentro {print}
+          ' CHANGELOG.md > notas.md
+          printf '\nImagen: `docker pull %s:%s`\n' "$IMAGEN" "$VERSION" >> notas.md
+          cat notas.md
+
+      - name: Crear la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notas.md --verify-tag
