@@ -1,0 +1,39 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam sequenceParticipantBorderColor #333333
+skinparam sequenceParticipantBackgroundColor #FFFFFF
+skinparam sequenceLifeLineBorderColor #888888
+title Ingreso de mercadería y ajuste por conteo (CU05 y CU06)
+
+actor "Encargado de\ninventario" as enc
+participant "Navegador" as nav
+participant "inventario.views" as vista
+participant "MovimientoForm" as form
+participant "inventario.servicios" as serv
+database "Base de datos" as bd
+
+enc -> nav : elige el producto
+nav -> vista : GET /productos/?p=<id>
+vista -> bd : producto y últimos movimientos
+vista --> nav : kárdex con entradas, salidas y saldo
+
+enc -> nav : tipo, cantidad y motivo
+nav -> vista : POST /productos/<id>/movimiento/
+vista -> form : is_valid()
+alt ajuste sin motivo o ingreso de 0
+  form --> vista : errores
+  vista --> nav : 400, el formulario con el aviso
+else válido
+  alt Ingreso de mercadería
+    vista -> serv : registrar_movimiento(producto, INGRESO, cantidad)
+  else Ajuste por conteo
+    vista -> serv : ajustar_a_conteo(producto, contado)
+    serv -> bd : SELECT ... FOR UPDATE, diferencia = contado - stock
+    note right : si la diferencia es 0\nno se registra nada
+  end
+  serv -> bd : actualiza stock_actual
+  serv -> bd : INSERT MovimientoStock (autor y motivo)
+  vista --> nav : "Entraron N de ... Ahora hay M"
+end
+@enduml
