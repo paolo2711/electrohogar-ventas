@@ -55,9 +55,10 @@ class Command(BaseCommand):
             u, nuevo = usuarios.get_or_create(username=usuario, defaults={'first_name': nombre, 'last_name': apellido})
             if nuevo:
                 u.set_password(CLAVE_DEMO)
-                # El gerente entra también al panel de administración de Django.
-                u.is_staff = rol == GERENTE
-                u.save()
+            # Gerente y encargado usan también el panel de administración de Django,
+            # hasta que sus pantallas propias estén listas.
+            u.is_staff = rol in (GERENTE, INVENTARIO)
+            u.save()
             u.groups.set([Group.objects.get(name=rol)])
         encargado = usuarios.get(username='jflores')
 

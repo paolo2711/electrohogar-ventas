@@ -16,6 +16,7 @@
     <a class="barra__tienda" href="/">ElectroHogar <span>Delgado</span></a>
     <nav>{% block menu %}{% endblock %}</nav>
     <span class="barra__quien">{{ user.get_full_name|default:user.username }}</span>
+    <form method="post" action="{% url 'salir' %}">{% csrf_token %}<button class="boton barra__salir">Salir</button></form>
   </header>
   {% endif %}
   <main>
