@@ -1,0 +1,84 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #333333
+skinparam classBackgroundColor #FFFFFF
+skinparam classHeaderBackgroundColor #F7F7F7
+hide circle
+hide empty methods
+skinparam linetype polyline
+class Usuario {
+  {field} -password: str
+  {field} -username: str
+  {field} -first_name: str
+  {field} -last_name: str
+  {field} -is_staff: bool
+  {field} -is_active: bool
+  +has_perm(permiso): bool
+}
+class Rol {
+  {field} -name: str
+}
+class Categoria {
+  {field} -nombre: str
+}
+class Producto {
+  {field} -codigo: str
+  {field} -nombre: str
+  {field} -marca: str
+  {field} -modelo: str
+  {field} -categoria: Categoria
+  {field} -precio_venta: Decimal
+  {field} -costo: Decimal
+  {field} -stock_actual: int
+  {field} -stock_minimo: int
+  {field} -imagen: Imagen
+  {field} -activo: bool
+  +bajo_minimo(): bool
+}
+class MovimientoStock {
+  {field} -producto: Producto
+  {field} -tipo: str [ingreso | ajuste | venta | anulacion]
+  {field} -cantidad: int
+  {field} -usuario: Usuario
+  {field} -fecha: datetime
+  {field} -motivo: str
+}
+class Venta {
+  {field} -fecha: datetime
+  {field} -cajero: Usuario
+  {field} -estado: str [registrada | confirmada | anulada]
+  {field} -total: Decimal
+  {field} -anulada_por: Usuario
+  {field} -motivo_anulacion: str
+  +calcular_total(): Decimal
+}
+class DetalleVenta {
+  {field} -venta: Venta
+  {field} -producto: Producto
+  {field} -cantidad: int
+  {field} -precio_unitario: Decimal
+  +subtotal(): Decimal
+}
+class "inventario.servicios" as SI <<servicio>> {
+  +registrar_movimiento(producto, tipo, cantidad, usuario, motivo)
+  +ajustar_a_conteo(producto, contado, usuario, motivo)
+}
+class "ventas.servicios" as SV <<servicio>> {
+  +confirmar_venta(venta, cajero)
+  +anular_venta(venta, gerente, motivo)
+}
+Categoria "1" -- "0..*" Producto
+Producto "1" -- "0..*" MovimientoStock
+Usuario "1" -- "0..*" MovimientoStock : usuario
+Venta "1" *-- "1..*" DetalleVenta
+Producto "1" -- "0..*" DetalleVenta
+Usuario "1" -- "0..*" Venta : cajero
+Usuario "0..1" -- "0..*" Venta : anulada_por
+Usuario "0..*" -- "0..*" Rol : groups
+SV ..> SI : usa
+SI ..> MovimientoStock : crea
+SV ..> Venta : cambia estado
+@enduml

@@ -1,0 +1,82 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #333333
+skinparam classBackgroundColor #FFFFFF
+skinparam classHeaderBackgroundColor #F7F7F7
+hide circle
+hide empty methods
+entity "auth_user" as Usuario {
+  {field} <b>PK</b> id: integer NOT NULL
+  {field} password: varchar(128) NOT NULL
+  {field} username: varchar(150) NOT NULL UNIQUE
+  {field} first_name: varchar(150) NOT NULL
+  {field} last_name: varchar(150) NOT NULL
+  {field} is_staff: boolean NOT NULL
+  {field} is_active: boolean NOT NULL
+}
+entity "auth_group" as Rol {
+  {field} <b>PK</b> id: integer NOT NULL
+  {field} name: varchar(150) NOT NULL UNIQUE
+}
+entity "inventario_categoria" as Categoria {
+  {field} <b>PK</b> id: bigint NOT NULL
+  {field} nombre: varchar(60) NOT NULL UNIQUE
+}
+entity "inventario_producto" as Producto {
+  {field} <b>PK</b> id: bigint NOT NULL
+  {field} codigo: varchar(20) NOT NULL UNIQUE
+  {field} nombre: varchar(120) NOT NULL
+  {field} marca: varchar(60) NOT NULL
+  {field} modelo: varchar(60) NOT NULL
+  {field} <b>FK</b> categoria_id: bigint NOT NULL
+  {field} precio_venta: numeric(10, 2) NOT NULL
+  {field} costo: numeric(10, 2) NOT NULL
+  {field} stock_actual: integer NOT NULL CHECK ≥ 0
+  {field} stock_minimo: integer NOT NULL CHECK ≥ 0
+  {field} imagen: varchar(100) NOT NULL
+  {field} activo: boolean NOT NULL
+}
+entity "inventario_movimientostock" as MovimientoStock {
+  {field} <b>PK</b> id: bigint NOT NULL
+  {field} <b>FK</b> producto_id: bigint NOT NULL
+  {field} tipo: varchar(10) NOT NULL
+  {field} cantidad: integer NOT NULL
+  {field} <b>FK</b> usuario_id: integer NOT NULL
+  {field} fecha: timestamp with time zone NOT NULL
+  {field} motivo: varchar(200) NOT NULL
+}
+entity "ventas_venta" as Venta {
+  {field} <b>PK</b> id: bigint NOT NULL
+  {field} fecha: timestamp with time zone NOT NULL
+  {field} <b>FK</b> cajero_id: integer NOT NULL
+  {field} estado: varchar(10) NOT NULL
+  {field} total: numeric(12, 2) NOT NULL
+  {field} <b>FK</b> anulada_por_id: integer
+  {field} motivo_anulacion: varchar(200) NOT NULL
+}
+entity "ventas_detalleventa" as DetalleVenta {
+  {field} <b>PK</b> id: bigint NOT NULL
+  {field} <b>FK</b> venta_id: bigint NOT NULL
+  {field} <b>FK</b> producto_id: bigint NOT NULL
+  {field} cantidad: integer NOT NULL CHECK ≥ 0
+  {field} precio_unitario: numeric(10, 2) NOT NULL
+}
+entity "auth_user_groups" as UsuarioRol {
+  {field} <b>PK</b> id: integer NOT NULL
+  {field} <b>FK</b> user_id: integer NOT NULL
+  {field} <b>FK</b> group_id: integer NOT NULL
+  {field} UNIQUE (user_id, group_id)
+}
+Categoria ||--o{ Producto
+Producto ||--o{ MovimientoStock
+Usuario ||--o{ MovimientoStock
+Venta ||--|{ DetalleVenta
+Producto ||--o{ DetalleVenta
+Usuario ||--o{ Venta
+Usuario |o--o{ Venta
+Usuario ||--o{ UsuarioRol
+Rol ||--o{ UsuarioRol
+@enduml
