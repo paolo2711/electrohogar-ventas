@@ -17,7 +17,7 @@ Cuatro rasgos, y lo que cada uno decide:
 
 ## Referencias
 
-- **El talonario y la boleta.** El panel de la venta se dibuja como una hoja de talonario: papel, renglones punteados y el total al pie. El color de acento sale del sello de la boleta.
+- **El talonario y la boleta.** El panel de la venta se dibuja como una hoja de talonario: papel, renglones punteados y el total al pie, separado por una línea de tinta. El color de acento sale del sello de la boleta y se usa solo en el botón principal.
 - **Square Point of Sale.** En su rediseño de 2026 la venta en curso queda siempre visible junto a la lista de productos, para armar el pedido con menos pasos ([notas de versión de Square](https://squareup.com/us/en/release-notes/release-notes-september-10th)). Tomamos esa distribución: productos a la izquierda, venta a la derecha.
 - **Atkinson Hyperlegible.** Tipografía del Braille Institute pensada para que cada letra se distinga de las demás, incluso con poca vista o con prisa. Es libre (SIL OFL 1.1) y tiene versión monoespaciada para cifras y códigos ([Braille Institute](https://www.brailleinstitute.org/freefont/)).
 
@@ -71,4 +71,15 @@ Los atajos se muestran al lado del botón que reemplazan.
 
 ## Lo que no va
 
-Degradados, sombras grandes, emojis, ilustraciones, todo redondeado, tarjetas dentro de tarjetas, píldoras de colores y animaciones que no informen algo.
+Son los recursos que más delatan una interfaz hecha con plantilla o generada automáticamente. Los sacamos de un catálogo de esos patrones ([Wystack, anti-patterns](https://cdn.jsdelivr.net/npm/@wystack/agent-kit@0.12.0/wystack-agent-kit/references/anti-patterns.md)) y de la revisión de la primera pantalla (issue #30).
+
+- **Borde grueso de color en un solo lado** de una caja, arriba o a la izquierda. Para separar se usan líneas finas completas en `--renglon` o `--tinta`.
+- **El nombre de la tienda en dos colores.** Va entero en `--tinta`.
+- **Todo centrado.** Las pantallas se alinean a la izquierda; centrar solo cuando de verdad hay una sola cosa que mirar.
+- **Todo dentro de tarjetas**, y menos aún tarjetas dentro de tarjetas. Un formulario va directo sobre el papel. La única caja de la pantalla de venta es el talonario, porque representa una hoja.
+- **Blanco o negro puros.** El texto sobre el sello va en `--hoja`, y el texto oscuro es `--tinta`.
+- **Todos los botones como principales.** Uno por pantalla.
+- **Mensajes en caja con barra de color.** Un mensaje es una frase en el color de su estado.
+- **La letra monoespaciada como adorno "técnico".** Aquí se usa solo para cifras y códigos, donde alinea columnas.
+- Degradados, brillos, vidrio esmerilado, sombras grandes, emojis, ilustraciones, íconos encima de cada título, esquinas muy redondeadas, píldoras de colores y animaciones que no informen algo.
+- Textos genéricos: "Aceptar", "Enviar", "Algo salió mal". Cada botón dice lo que hace ("Cobrar", "Entrar") y cada error dice qué pasó y qué hacer.
