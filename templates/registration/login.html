@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Entrar · ElectroHogar Ventas{% endblock %}
+{% block estilos %}<link rel="stylesheet" href="{% static 'css/entrar.css' %}">{% endblock %}
+
+{% block contenido %}
+<div class="entrar">
+  <header class="entrar__tienda">
+    <p class="entrar__nombre">ElectroHogar <span>Delgado</span></p>
+    <p class="suave">Electrodomésticos y línea blanca · San Miguel · desde 2013</p>
+  </header>
+
+  <form method="post" class="entrar__hoja">
+    {% csrf_token %}
+    <h1>Entrar a caja</h1>
+
+    {% if form.non_field_errors %}
+    <p class="mensaje mensaje--falla">Usuario o clave incorrectos. Revisa las mayúsculas y vuelve a intentar.</p>
+    {% endif %}
+
+    <div>
+      <label for="id_username">Usuario</label>
+      <input class="campo" id="id_username" name="username" autocomplete="username" autofocus required
+             value="{{ form.username.value|default:'' }}">
+    </div>
+    <div>
+      <label for="id_password">Clave</label>
+      <input class="campo" id="id_password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="boton boton--principal">Entrar</button>
+  </form>
+</div>
+{% endblock %}

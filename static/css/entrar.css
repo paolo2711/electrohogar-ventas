@@ -1,0 +1,22 @@
+/* Pantalla de inicio de sesión */
+main:has(.entrar) { min-height: 100vh; display: grid; place-items: center; }
+
+.entrar { width: min(400px, 100%); }
+
+.entrar__tienda { margin-bottom: var(--e5); }
+.entrar__tienda p { margin: 0; }
+.entrar__nombre { font-size: 28px; font-weight: 700; }
+.entrar__nombre span { color: var(--sello); }
+
+/* La hoja del talonario: borde fino y una línea de sello arriba */
+.entrar__hoja {
+  display: grid; gap: var(--e4);
+  padding: var(--e5);
+  background: var(--hoja);
+  border: 1px solid var(--renglon);
+  border-top: 4px solid var(--sello);
+  border-radius: var(--esquina);
+}
+.entrar__hoja h1 { font-size: 20px; }
+.entrar__hoja .mensaje { margin: 0; }
+.entrar__hoja .boton { width: 100%; margin-top: var(--e2); }

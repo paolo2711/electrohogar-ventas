@@ -1,13 +1,19 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth
 from django.urls import path
+
+from . import views
 
 admin.site.site_header = 'ElectroHogar Ventas'
 admin.site.site_title = 'ElectroHogar Ventas'
 admin.site.index_title = 'Administración'
 
 urlpatterns = [
+    path('', views.inicio, name='inicio'),
+    path('entrar/', auth.LoginView.as_view(redirect_authenticated_user=True), name='entrar'),
+    path('salir/', auth.LogoutView.as_view(), name='salir'),
     path('admin/', admin.site.urls),
 ]
 
