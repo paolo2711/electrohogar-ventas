@@ -27,3 +27,17 @@ class InicioDeSesion(TestCase):
     def test_sin_sesion_lo_manda_a_entrar(self):
         r = self.client.get(reverse('inicio'))
         self.assertRedirects(r, reverse('entrar') + '?next=/')
+
+
+class ModeloDeDatos(TestCase):
+    def test_el_esquema_documentado_coincide_con_los_modelos(self):
+        """Si cambia un modelo, hay que volver a correr docs/diseno/datos.py."""
+        import importlib.util
+        from pathlib import Path
+
+        ruta = Path(__file__).resolve().parents[1] / 'docs' / 'diseno' / 'datos.py'
+        spec = importlib.util.spec_from_file_location('datos', ruta)
+        datos = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(datos)
+        guardado = (ruta.parent / 'datos' / 'esquema.sql').read_text(encoding='utf-8')
+        self.assertEqual(datos.esquema_sql(), guardado, 'esquema.sql está desactualizado: corre docs/diseno/datos.py')
