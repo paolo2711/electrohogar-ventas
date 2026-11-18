@@ -28,3 +28,6 @@ skinparam swimlaneBorderColor #888888
 skinparam swimlaneTitleFontStyle bold
 skinparam noteBorderColor #888888
 skinparam noteBackgroundColor #F7F7F7
+
+skinparam databaseBorderColor #333333
+skinparam databaseBackgroundColor #FFFFFF

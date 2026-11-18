@@ -15,6 +15,7 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 - Menú de la barra según los permisos de cada rol.
 - Ventas del día para el gerente: lo cobrado, el cuadre por caja, el detalle de cada venta y la anulación con motivo, que devuelve los productos al stock.
 - Modelo de la base de datos en cuatro niveles (conceptual, clases, lógico y físico) y `esquema.sql` de PostgreSQL, generados desde los modelos con `docs/diseno/datos.py`.
+- Diagrama de componentes y diagramas de secuencia de inicio de sesión, venta y cobro, ingreso de mercadería y anulación.
 
 ### Corregido
 

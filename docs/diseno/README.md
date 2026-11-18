@@ -13,3 +13,7 @@ python docs/diseno/datos.py
 ```
 
 Con `PLANTUML_JAR` apuntando a `plantuml.jar` también deja los PNG en `img/`. Una prueba revisa que `esquema.sql` coincida con los modelos, así que si se cambia un modelo y no se regenera, el CI falla.
+
+## Componentes y secuencias
+
+`componentes.puml` muestra las piezas del sistema y cómo se conectan (navegador, apps de Django, base de datos y GitHub). En `secuencias/` están los diagramas de secuencia de los flujos principales: inicio de sesión, venta y cobro, ingreso de mercadería y anulación. Se escriben a mano siguiendo el código, y se convierten con `java -jar plantuml.jar -tpng -o img componentes.puml secuencias/*.puml`.

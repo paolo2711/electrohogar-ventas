@@ -1,0 +1,66 @@
+@startuml
+!include estilo.iuml
+skinparam dpi 150
+skinparam componentStyle rectangle
+skinparam componentBorderColor #333333
+skinparam componentBackgroundColor #FFFFFF
+skinparam databaseBorderColor #333333
+skinparam databaseBackgroundColor #FFFFFF
+skinparam nodeBorderColor #888888
+skinparam nodeBackgroundColor #F7F7F7
+title Componentes de ElectroHogar Ventas
+
+actor "Cajero" as cajero
+actor "Encargado de\ninventario" as encargado
+actor "Gerente" as gerente
+
+node "Navegador" {
+  [Pantallas HTML\n(plantillas Django)] as pantallas
+  [Estilos y atajos\n(base.css, venta.js)] as estaticos
+}
+
+node "Servidor de aplicación (Django 5.2)" {
+  [electrohogar\nURLs, inicio de sesión,\nreparto por rol] as nucleo
+  package "ventas" {
+    [Vistas: venta,\nventas del día] as vventas
+    [Servicios: confirmar_venta,\nanular_venta] as sventas
+  }
+  package "inventario" {
+    [Vistas: productos\ny kárdex] as vinv
+    [Servicios: registrar_movimiento,\najustar_a_conteo] as sinv
+    [Roles y permisos] as roles
+  }
+  [Panel de administración\n(django.contrib.admin)] as admin
+  [Autenticación\n(django.contrib.auth)] as auth
+  [ORM de Django] as orm
+}
+
+database "Base de datos\nSQLite en desarrollo\nPostgreSQL en producción" as bd
+
+cloud "GitHub" {
+  [Repositorio\n(Gitflow)] as repo
+  [Actions: pruebas.yml (CI)\nentrega.yml (CD)] as actions
+  [GitHub Packages\n(imagen Docker)] as ghcr
+}
+
+cajero --> pantallas
+encargado --> pantallas
+gerente --> pantallas
+pantallas ..> estaticos
+pantallas --> nucleo : HTTP
+nucleo --> vventas
+nucleo --> vinv
+nucleo --> admin
+nucleo --> auth
+vventas --> sventas
+vinv --> sinv
+sventas --> sinv : descuenta y devuelve stock
+roles --> auth
+sventas --> orm
+sinv --> orm
+admin --> orm
+auth --> orm
+orm --> bd
+repo --> actions : push / tag
+actions --> ghcr : publica la imagen
+@enduml
