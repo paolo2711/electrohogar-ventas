@@ -51,7 +51,6 @@ a { color: inherit; }
   background: var(--hoja);
 }
 .barra__tienda { font-weight: 700; font-size: 18px; text-decoration: none; }
-.barra__tienda span { color: var(--sello); }
 .barra nav { display: flex; gap: var(--e1); }
 .barra nav a {
   padding: var(--e2) var(--e3);
@@ -83,7 +82,7 @@ main { padding: var(--e5); }
   min-height: 56px;
   border-color: var(--sello);
   background: var(--sello);
-  color: #fff;
+  color: var(--hoja);
 }
 .boton--principal:hover, .boton--principal:active { background: var(--sello-oscuro); border-color: var(--sello-oscuro); }
 .boton[disabled] { opacity: .45; cursor: not-allowed; }
@@ -115,8 +114,8 @@ label { display: block; font-size: 14px; color: var(--tinta-suave); margin-botto
 .tabla td { padding: var(--e3); border-bottom: 1px solid var(--renglon); height: 48px; }
 .tabla .num { text-align: right; font-family: var(--cifra); font-variant-numeric: tabular-nums; }
 
-/* Mensajes: texto con el color del estado y una línea a la izquierda */
-.mensaje { padding: var(--e3) var(--e4); border-left: 3px solid; background: var(--hoja); margin-bottom: var(--e4); }
+/* Mensajes: una frase en el color del estado, sin caja alrededor */
+.mensaje { margin: 0 0 var(--e4); font-weight: 700; }
 .mensaje--bien { color: var(--bien); }
 .mensaje--falla { color: var(--falla); }
 .mensaje--aviso { color: var(--aviso); }
