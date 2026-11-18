@@ -26,3 +26,16 @@ def registrar_movimiento(producto, tipo, cantidad, usuario, motivo=''):
     return MovimientoStock.objects.create(
         producto=producto, tipo=tipo, cantidad=cantidad, usuario=usuario, motivo=motivo,
     )
+
+
+@transaction.atomic
+def ajustar_a_conteo(producto, contado, usuario, motivo):
+    """Deja el stock igual a lo que se contó en el almacén, registrando la diferencia.
+
+    Devuelve el movimiento, o None si el conteo coincide con el sistema.
+    """
+    producto = Producto.objects.select_for_update().get(pk=producto.pk)
+    diferencia = contado - producto.stock_actual
+    if diferencia == 0:
+        return None
+    return registrar_movimiento(producto, MovimientoStock.AJUSTE, diferencia, usuario, motivo)

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static caja %}
+
+{% block titulo %}Productos y stock · ElectroHogar Ventas{% endblock %}
+{% block estilos %}<link rel="stylesheet" href="{% static 'css/inventario.css' %}">{% endblock %}
+
+{% block contenido %}
+{% url 'inventario:productos' as base %}
+<div class="almacen">
+
+  <section aria-label="Productos">
+    <div class="almacen__cabeza">
+      <nav class="filtro" aria-label="Qué productos ver">
+        <a href="{{ base }}?{% if q %}q={{ q|urlencode }}{% endif %}" {% if ver != 'pedir' %}aria-current="true"{% endif %}>Todos <span class="cifra">{{ total_activos }}</span></a>
+        <a href="{{ base }}?ver=pedir{% if q %}&q={{ q|urlencode }}{% endif %}" {% if ver == 'pedir' %}aria-current="true"{% endif %}>Por pedir <span class="cifra">{{ total_por_pedir }}</span></a>
+      </nav>
+      <form method="get" action="{{ base }}" class="buscar" role="search">
+        {% if ver %}<input type="hidden" name="ver" value="{{ ver }}">{% endif %}
+        <label for="q" class="oculto">Buscar producto</label>
+        <input class="campo" id="q" name="q" value="{{ q }}" placeholder="Buscar por código, nombre o marca" autocomplete="off">
+      </form>
+    </div>
+
+    {% if productos %}
+    <table class="tabla">
+      <thead>
+        <tr><th>Código</th><th>Producto</th><th>Categoría</th><th class="num">Stock</th><th class="num">Mínimo</th></tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+        <tr {% if p.pk == producto.pk %}class="elegido" aria-current="true"{% endif %}>
+          <td class="cifra suave">{{ p.codigo }}</td>
+          <td><a class="almacen__ver" href="{{ base }}?{% if ver %}ver={{ ver }}&{% endif %}{% if q %}q={{ q|urlencode }}&{% endif %}p={{ p.pk }}"><strong>{{ p.nombre }}</strong> <span class="suave">{{ p.marca }} {{ p.modelo }}</span></a></td>
+          <td class="suave">{{ p.categoria }}</td>
+          <td class="num">
+            {% if p.stock_actual == 0 %}<span class="falla">Agotado</span>
+            {% elif p.bajo_minimo %}<span class="aviso">{{ p.stock_actual }}</span>
+            {% else %}{{ p.stock_actual }}{% endif %}
+          </td>
+          <td class="num suave">{{ p.stock_minimo }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% elif ver == 'pedir' and not q %}
+    <p class="vacio">Ningún producto está en el mínimo. No hay nada que pedir por ahora.</p>
+    {% else %}
+    <p class="vacio">No hay productos que coincidan con «{{ q }}».</p>
+    {% endif %}
+    <p class="almacen__nota suave">Los productos nuevos, los precios y el mínimo se cambian en <a href="{% url 'admin:inventario_producto_changelist' %}">Administración</a>.</p>
+  </section>
+
+  <aside class="kardex" aria-label="Kárdex del producto">
+    {% if producto %}
+    <header class="kardex__cabeza">
+      <p class="kardex__rotulo suave">Kárdex · <span class="cifra">{{ producto.codigo }}</span></p>
+      <h2>{{ producto.nombre }}</h2>
+      <p class="suave">{{ producto.marca }} {{ producto.modelo }} · {{ producto.categoria }}</p>
+      <dl class="kardex__stock">
+        <div><dt>En almacén</dt><dd class="cifra{% if producto.stock_actual == 0 %} falla{% elif producto.bajo_minimo %} aviso{% endif %}">{{ producto.stock_actual }}</dd></div>
+        <div><dt>Mínimo</dt><dd class="cifra">{{ producto.stock_minimo }}</dd></div>
+      </dl>
+      {% if producto.stock_actual == 0 %}<p class="falla">Agotado. En caja no se puede vender.</p>
+      {% elif producto.bajo_minimo %}<p class="aviso">Llegó al mínimo: toca pedirlo.</p>{% endif %}
+    </header>
+
+    {% if puede_registrar %}
+    <form method="post" action="{% url 'inventario:movimiento' producto.pk %}?{{ request.GET.urlencode }}" class="kardex__registrar" id="registrar" novalidate>
+      {% csrf_token %}
+      <fieldset class="eleccion">
+        <legend class="oculto">Qué se registra</legend>
+        {% for valor, texto in form.fields.tipo.choices %}
+        <label><input type="radio" name="tipo" value="{{ valor }}" {% if form.tipo.value == valor %}checked{% endif %}> {{ texto }}</label>
+        {% endfor %}
+      </fieldset>
+      <div class="kardex__campos">
+        <div>
+          <label for="id_cantidad" data-ingreso="Llegaron" data-ajuste="Se contaron">{% if form.tipo.value == 'ajuste' %}Se contaron{% else %}Llegaron{% endif %}</label>
+          <input class="campo cifra" id="id_cantidad" name="cantidad" type="number" min="0" inputmode="numeric" value="{{ form.cantidad.value|default_if_none:'' }}" required>
+          {% for e in form.cantidad.errors %}<p class="falla campo__error">{{ e }}</p>{% endfor %}
+        </div>
+        <div>
+          <label for="id_motivo" data-ingreso="Guía o proveedor (opcional)" data-ajuste="Motivo del ajuste">{% if form.tipo.value == 'ajuste' %}Motivo del ajuste{% else %}Guía o proveedor (opcional){% endif %}</label>
+          <input class="campo" id="id_motivo" name="motivo" maxlength="200" value="{{ form.motivo.value|default_if_none:'' }}">
+          {% for e in form.motivo.errors %}<p class="falla campo__error">{{ e }}</p>{% endfor %}
+        </div>
+      </div>
+      <button class="boton boton--principal">Registrar</button>
+    </form>
+    {% endif %}
+
+    <table class="tabla kardex__movs">
+      <caption class="suave">Últimos movimientos</caption>
+      <thead><tr><th>Fecha</th><th>Movimiento</th><th class="num">Entra</th><th class="num">Sale</th><th class="num">Saldo</th></tr></thead>
+      <tbody>
+        {% for f in kardex %}
+        <tr>
+          <td class="cifra suave kardex__fecha">{{ f.mov.fecha|date:"d/m" }}<br>{{ f.mov.fecha|date:"H:i" }}</td>
+          <td>{{ f.que }}<span class="suave kardex__detalle">{{ f.mov.usuario.first_name|default:f.mov.usuario.username }}{% if f.mov.motivo %} · {{ f.mov.motivo }}{% endif %}</span></td>
+          <td class="num">{% if f.mov.cantidad > 0 %}{{ f.mov.cantidad }}{% endif %}</td>
+          <td class="num">{% if f.mov.cantidad < 0 %}{% widthratio f.mov.cantidad 1 -1 %}{% endif %}</td>
+          <td class="num"><strong>{{ f.saldo }}</strong></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="suave">Todavía no tiene movimientos.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="kardex__vacio suave">Elige un producto de la lista para ver su kárdex y registrar lo que llegó o lo que se contó.</p>
+    {% endif %}
+  </aside>
+
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/inventario.js' %}"></script>{% endblock %}
