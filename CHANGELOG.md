@@ -9,6 +9,12 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 - Workflow de GitHub Actions que revisa la configuración, las migraciones y corre las pruebas en cada push y pull request hacia `develop` y `main`.
 - Roles de gerente, cajero y encargado de inventario como grupos de Django, y el comando `cargar_demo` con usuarios y catálogo de prueba.
 - Guía de identidad visual (`docs/identidad-visual.md`) y plantilla base de las pantallas.
+- Inicio de sesión que lleva a cada rol a su pantalla.
+- Pantalla de venta del cajero: búsqueda, venta en curso como hoja de talonario, control de stock al agregar y cobro con F9.
+
+### Corregido
+
+- La pantalla de entrada usaba recursos típicos de plantilla (#30).
 
 ## [0.1.0] - 2026-10-22
 

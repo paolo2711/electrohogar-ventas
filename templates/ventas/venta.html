@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static caja %}
+
+{% block titulo %}Venta · ElectroHogar Ventas{% endblock %}
+{% block estilos %}<link rel="stylesheet" href="{% static 'css/venta.css' %}">{% endblock %}
+{% block menu %}<a href="{% url 'ventas:venta' %}" aria-current="page">Venta</a>{% endblock %}
+
+{% block contenido %}
+<div class="caja">
+
+  <section class="productos" aria-label="Productos">
+    <form method="get" class="buscar" role="search">
+      <label for="q">Buscar producto <span class="atajo">/</span></label>
+      <input class="campo campo--grande" id="q" name="q" value="{{ q }}" data-buscado="{{ q }}"
+             placeholder="Código, nombre o marca" autocomplete="off" autofocus>
+    </form>
+
+    {% if productos %}
+    <table class="tabla">
+      <thead>
+        <tr><th>Código</th><th>Producto</th><th class="num">Stock</th><th class="num">Precio</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+        <tr>
+          <td class="cifra suave">{{ p.codigo }}</td>
+          <td><strong>{{ p.nombre }}</strong> <span class="suave">{{ p.marca }} {{ p.modelo }}</span></td>
+          <td class="num">
+            {% if p.stock_actual == 0 %}<span class="falla">Agotado</span>
+            {% elif p.bajo_minimo %}<span class="aviso">{{ p.stock_actual }}</span>
+            {% else %}{{ p.stock_actual }}{% endif %}
+          </td>
+          <td class="num">{{ p.precio_venta|soles }}</td>
+          <td class="accion">
+            <form method="post" action="{% url 'ventas:agregar' p.pk %}">
+              {% csrf_token %}<input type="hidden" name="q" value="{{ q }}">
+              <button class="boton agregar" {% if p.stock_actual == 0 %}disabled{% endif %}>Agregar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="vacio">No hay productos que coincidan con «{{ q }}».</p>
+    {% endif %}
+  </section>
+
+  <aside class="talonario" aria-label="Venta en curso">
+    <header class="talonario__cabeza">
+      <h2>{% if venta %}Venta <span class="cifra">N.º {{ venta.pk|stringformat:"04d" }}</span>{% else %}Venta nueva{% endif %}</h2>
+      <p class="suave">{% now "d/m/Y H:i" %} · Caja: {{ user.get_full_name|default:user.username }}</p>
+    </header>
+
+    {% if detalles %}
+    <ol class="renglones">
+      {% for d in detalles %}
+      <li class="renglon">
+        <div class="renglon__que">
+          <strong>{{ d.producto.nombre }}</strong>
+          <span class="suave">{{ d.producto.marca }} {{ d.producto.modelo }}</span>
+          <span class="suave cifra">{{ d.cantidad }} × {{ d.precio_unitario|soles }}</span>
+        </div>
+        <span class="renglon__monto cifra">{{ d.subtotal|soles }}</span>
+        <div class="renglon__cambiar">
+          <form method="post" action="{% url 'ventas:quitar' d.pk %}">{% csrf_token %}<input type="hidden" name="q" value="{{ q }}"><button class="boton boton--chico" aria-label="Una unidad menos">−</button></form>
+          <form method="post" action="{% url 'ventas:agregar' d.producto.pk %}">{% csrf_token %}<input type="hidden" name="q" value="{{ q }}"><button class="boton boton--chico" aria-label="Una unidad más">+</button></form>
+          <form method="post" action="{% url 'ventas:quitar' d.pk %}">{% csrf_token %}<input type="hidden" name="q" value="{{ q }}"><input type="hidden" name="todo" value="1"><button class="boton boton--chico boton--texto">Quitar</button></form>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="talonario__vacio suave">Busca un producto y agrégalo para empezar la venta.</p>
+    {% endif %}
+
+    <footer class="talonario__pie">
+      <div class="total">
+        <span>Total{% if unidades %} · {{ unidades }} unidad{{ unidades|pluralize:"es" }}{% endif %}</span>
+        <strong class="cifra">{{ total|soles }}</strong>
+      </div>
+      <form method="post" action="{% url 'ventas:cobrar' %}" id="cobrar">
+        {% csrf_token %}
+        <button class="boton boton--principal cobrar" {% if not detalles %}disabled{% endif %}>Cobrar <span class="atajo">F9</span></button>
+      </form>
+    </footer>
+  </aside>
+
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/venta.js' %}"></script>{% endblock %}

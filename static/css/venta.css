@@ -1,0 +1,52 @@
+/* Pantalla de venta: productos a la izquierda, la hoja del talonario a la derecha */
+.caja {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: var(--e5);
+  align-items: start;
+}
+
+.buscar { margin-bottom: var(--e4); }
+.campo--grande { min-height: 56px; font-size: 18px; }
+
+.productos .tabla td strong { font-weight: 700; }
+.productos .accion { width: 1%; padding-block: var(--e1); }
+.productos .agregar { min-height: 40px; }
+.vacio { padding: var(--e6) 0; color: var(--tinta-suave); }
+
+/* El talonario: la única caja de la pantalla, con renglones punteados y el total bajo una línea de tinta */
+.talonario {
+  position: sticky; top: var(--e5);
+  display: flex; flex-direction: column;
+  max-height: calc(100vh - 56px - 2 * var(--e5));
+  background: var(--hoja);
+  border: 1px solid var(--renglon);
+  border-radius: var(--esquina);
+}
+.talonario__cabeza { padding: var(--e4) var(--e5); border-bottom: 1px dashed var(--renglon); }
+.talonario__cabeza p { margin: var(--e1) 0 0; font-size: 14px; }
+.talonario__vacio { padding: var(--e6) var(--e5); margin: 0; }
+
+.renglones { list-style: none; margin: 0; padding: 0; overflow-y: auto; }
+.renglon {
+  display: grid; grid-template-columns: 1fr auto; gap: var(--e1) var(--e3);
+  padding: var(--e3) var(--e5);
+  border-bottom: 1px dashed var(--renglon);
+}
+.renglon__que { display: flex; flex-direction: column; }
+.renglon__que span { font-size: 14px; }
+.renglon__monto { font-weight: 700; align-self: start; }
+.renglon__cambiar { grid-column: 1 / -1; display: flex; gap: var(--e2); }
+.boton--chico { min-height: 32px; min-width: 32px; padding: 0 var(--e2); font-weight: 400; }
+.boton--texto { margin-left: auto; border-color: transparent; color: var(--tinta-suave); text-decoration: underline; }
+
+.talonario__pie { margin-top: auto; padding: var(--e4) var(--e5) var(--e5); border-top: 1px solid var(--tinta); }
+.total { display: flex; justify-content: space-between; align-items: baseline; gap: var(--e3); margin-bottom: var(--e4); white-space: nowrap; }
+.total span { color: var(--tinta-suave); }
+.total strong { font-size: 36px; line-height: 1; }
+.cobrar { width: 100%; font-size: 18px; }
+
+@media (max-width: 900px) {
+  .caja { grid-template-columns: 1fr; }
+  .talonario { position: static; max-height: none; }
+}
