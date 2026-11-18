@@ -11,6 +11,8 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 - Guía de identidad visual (`docs/identidad-visual.md`) y plantilla base de las pantallas.
 - Inicio de sesión que lleva a cada rol a su pantalla.
 - Pantalla de venta del cajero: búsqueda, venta en curso como hoja de talonario, control de stock al agregar y cobro con F9.
+- Pantalla de productos y stock del encargado: filtro de lo que hay que pedir, kárdex de cada producto con su saldo, ingreso de mercadería y ajuste por conteo. El gerente la ve sin poder registrar.
+- Menú de la barra según los permisos de cada rol.
 
 ### Corregido
 

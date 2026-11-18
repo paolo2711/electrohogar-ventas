@@ -14,7 +14,13 @@
   {% if user.is_authenticated %}
   <header class="barra">
     <a class="barra__tienda" href="/">ElectroHogar Delgado</a>
-    <nav>{% block menu %}{% endblock %}</nav>
+    {% with vista=request.resolver_match.view_name %}
+    <nav aria-label="Pantallas">
+      {% if perms.ventas.add_venta %}<a href="{% url 'ventas:venta' %}" {% if vista == 'ventas:venta' %}aria-current="page"{% endif %}>Venta</a>{% endif %}
+      {% if perms.inventario.view_movimientostock %}<a href="{% url 'inventario:productos' %}" {% if vista == 'inventario:productos' %}aria-current="page"{% endif %}>Productos y stock</a>{% endif %}
+      {% if user.is_staff %}<a href="{% url 'admin:index' %}">Administración</a>{% endif %}
+    </nav>
+    {% endwith %}
     <span class="barra__quien">{{ user.get_full_name|default:user.username }}</span>
     <form method="post" action="{% url 'salir' %}">{% csrf_token %}<button class="boton barra__salir">Salir</button></form>
   </header>

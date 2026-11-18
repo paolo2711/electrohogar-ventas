@@ -18,6 +18,7 @@ Cuatro rasgos, y lo que cada uno decide:
 ## Referencias
 
 - **El talonario y la boleta.** El panel de la venta se dibuja como una hoja de talonario: papel, renglones punteados y el total al pie, separado por una línea de tinta. El color de acento sale del sello de la boleta y se usa solo en el botón principal.
+- **La tarjeta de kárdex.** El control de existencias que llevan a mano muchas tiendas en el Perú: entradas, salidas y saldo en columnas. En la pantalla del encargado, la ficha de cada producto sigue ese formato, y es la única caja de esa pantalla.
 - **Square Point of Sale.** En su rediseño de 2026 la venta en curso queda siempre visible junto a la lista de productos, para armar el pedido con menos pasos ([notas de versión de Square](https://squareup.com/us/en/release-notes/release-notes-september-10th)). Tomamos esa distribución: productos a la izquierda, venta a la derecha.
 - **Atkinson Hyperlegible.** Tipografía del Braille Institute pensada para que cada letra se distinga de las demás, incluso con poca vista o con prisa. Es libre (SIL OFL 1.1) y tiene versión monoespaciada para cifras y códigos ([Braille Institute](https://www.brailleinstitute.org/freefont/)).
 

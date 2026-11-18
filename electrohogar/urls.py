@@ -15,6 +15,7 @@ urlpatterns = [
     path('entrar/', auth.LoginView.as_view(redirect_authenticated_user=True), name='entrar'),
     path('salir/', auth.LogoutView.as_view(), name='salir'),
     path('', include('ventas.urls')),
+    path('', include('inventario.urls')),
     path('admin/', admin.site.urls),
 ]
 
