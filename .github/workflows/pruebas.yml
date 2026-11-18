@@ -1,5 +1,6 @@
 # Corre la revisión de Django y las pruebas en cada push y en cada pull request
 # hacia develop y main. Si algo falla, la PR lo muestra antes de fusionar.
+# entrega.yml también lo llama antes de publicar una versión.
 name: Pruebas
 
 on:
@@ -7,6 +8,7 @@ on:
     branches: [develop, main]
   pull_request:
     branches: [develop, main]
+  workflow_call:
 
 jobs:
   pruebas:

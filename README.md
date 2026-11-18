@@ -45,6 +45,18 @@ Se entra por `http://127.0.0.1:8000/` y cada usuario cae en la pantalla de su ro
 
 Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
 
+## Entrega continua
+
+Cada versión se publica sola al crear su tag (`git tag v0.2.0 && git push origin v0.2.0`). El workflow `entrega.yml` corre las pruebas, construye la imagen Docker, la sube a GitHub Packages y crea la release con las notas del CHANGELOG.
+
+Para levantar una versión publicada:
+
+```
+docker run -p 8000:8000   -e DJANGO_SECRET_KEY=... -e DJANGO_DEBUG=0 -e DJANGO_ALLOWED_HOSTS=localhost   -e POSTGRES_DB=... -e POSTGRES_USER=... -e POSTGRES_PASSWORD=... -e POSTGRES_HOST=...   ghcr.io/paolo2711/electrohogar-ventas:0.2.0
+```
+
+Al arrancar aplica las migraciones pendientes.
+
 ## Flujo de trabajo
 
 El repositorio sigue Gitflow.
