@@ -7,6 +7,8 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 ### Agregado
 
 - Workflow de GitHub Actions que revisa la configuración, las migraciones y corre las pruebas en cada push y pull request hacia `develop` y `main`.
+- Roles de gerente, cajero y encargado de inventario como grupos de Django, y el comando `cargar_demo` con usuarios y catálogo de prueba.
+- Guía de identidad visual (`docs/identidad-visual.md`) y plantilla base de las pantallas.
 
 ## [0.1.0] - 2026-10-22
 
