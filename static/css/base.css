@@ -113,6 +113,8 @@ label { display: block; font-size: 14px; color: var(--tinta-suave); margin-botto
 }
 .tabla td { padding: var(--e3); border-bottom: 1px solid var(--renglon); height: 48px; }
 .tabla .num { text-align: right; font-family: var(--cifra); font-variant-numeric: tabular-nums; }
+/* Códigos, horas y montos no se parten en dos líneas (#47) */
+.tabla .cifra, .tabla .num { white-space: nowrap; }
 
 /* Mensajes: una frase en el color del estado, sin caja alrededor */
 .mensaje { margin: 0 0 var(--e4); font-weight: 700; }
