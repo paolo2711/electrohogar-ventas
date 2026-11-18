@@ -62,6 +62,16 @@ class ConfirmarYAnular(TestCase):
             confirmar_venta(v, self.cajero)
         self.assertEqual(self.stock(self.micro), 4)
 
+    def test_la_venta_queda_con_la_hora_del_cobro(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+        v = self.venta((self.micro, 1))
+        Venta.objects.filter(pk=v.pk).update(fecha=timezone.now() - timedelta(hours=3))
+        confirmar_venta(v, self.cajero)
+        v.refresh_from_db()
+        self.assertLess(timezone.now() - v.fecha, timedelta(minutes=1))
+
     def test_anular_devuelve_el_stock(self):
         v = confirmar_venta(self.venta((self.refri, 2)), self.cajero)
         anular_venta(v, self.gerente, 'El cliente se arrepintió')
