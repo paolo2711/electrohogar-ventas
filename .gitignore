@@ -9,6 +9,8 @@ env/
 # Django
 *.log
 db.sqlite3
+*.sqlite3
+docs/simulaciones/salida/
 media/
 staticfiles/
 .env
