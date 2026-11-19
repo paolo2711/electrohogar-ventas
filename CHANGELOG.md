@@ -8,6 +8,10 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 - Simulaciones reproducibles (`docs/simulaciones/simular.py`): ocho escenarios sobre una base aparte, con captura de cada pantalla. La base SQLite se puede elegir con `DJANGO_SQLITE`.
 
+## [0.2.1] - 2026-11-18
+
+Corrección encontrada después de publicar la 0.2.0, al correr las simulaciones.
+
 ### Corregido
 
 - Al entrar a una pantalla de otro rol se veía una página en blanco que decía "403 Forbidden"; ahora se explica y se ofrece volver a la pantalla propia (#50).
