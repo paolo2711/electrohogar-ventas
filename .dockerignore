@@ -1,0 +1,9 @@
+.git
+.github
+.venv
+**/__pycache__
+db.sqlite3
+media
+staticfiles
+docs
+*.md

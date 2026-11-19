@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1>Hola, {{ user.first_name|default:user.username }}</h1>
+{% if rol %}
+<p>La pantalla de {{ rol|lower }} todavía no está lista.</p>
+{% else %}
+<p>Tu usuario no tiene un rol asignado. Pídele al gerente que te asigne uno para poder trabajar.</p>
+{% endif %}
+{% endblock %}

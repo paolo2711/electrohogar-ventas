@@ -1,0 +1,39 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam sequenceParticipantBorderColor #333333
+skinparam sequenceParticipantBackgroundColor #FFFFFF
+skinparam sequenceLifeLineBorderColor #888888
+skinparam sequenceGroupBorderColor #888888
+title Consulta de ventas del día y anulación (CU13 y CU12)
+
+actor Gerente
+participant "Navegador" as nav
+participant "ventas.views" as vista
+participant "ventas.servicios" as serv
+participant "inventario.servicios" as inv
+database "Base de datos" as bd
+
+Gerente -> nav : abre las ventas del día
+nav -> vista : GET /ventas/?dia=...
+vista -> bd : ventas confirmadas y anuladas del día,\ntotales y cuadre por caja
+vista --> nav : resumen y lista
+Gerente -> nav : elige la venta, escribe el motivo
+nav -> vista : POST /ventas/<id>/anular/
+note right of vista : solo con el permiso\nventas.change_venta (gerente)
+vista -> serv : anular_venta(venta, gerente, motivo)
+group transacción atómica
+  serv -> bd : SELECT ... FOR UPDATE de la venta
+  alt no está confirmada o falta el motivo
+    serv --> vista : VentaNoValida
+    vista --> nav : "No se anuló: ..."
+  else válida
+    loop cada detalle
+      serv -> inv : registrar_movimiento(producto, ANULACION, +cantidad)
+      inv -> bd : stock_actual += cantidad, INSERT MovimientoStock
+    end
+    serv -> bd : estado = ANULADA, anulada_por, motivo
+    vista --> nav : "Venta 0001 anulada. Los productos volvieron al stock."
+  end
+end
+@enduml

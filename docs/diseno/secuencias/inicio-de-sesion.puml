@@ -1,0 +1,41 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam sequenceParticipantBorderColor #333333
+skinparam sequenceParticipantBackgroundColor #FFFFFF
+skinparam sequenceLifeLineBorderColor #888888
+title Inicio de sesión y reparto por rol (CU01)
+
+actor Usuario
+participant "Navegador" as nav
+participant "LoginView\n(django.contrib.auth)" as login
+participant "electrohogar.views\ninicio" as inicio
+participant "inventario.roles" as roles
+database "Base de datos" as bd
+
+Usuario -> nav : abre el sistema
+nav -> login : GET /entrar/
+login --> nav : formulario
+Usuario -> nav : usuario y clave
+nav -> login : POST /entrar/
+login -> bd : busca el usuario y compara el hash de la clave
+alt credenciales incorrectas
+  login --> nav : "Usuario o clave incorrectos"
+else correctas
+  login -> bd : crea la sesión
+  login --> nav : redirige a /
+  nav -> inicio : GET /
+  inicio -> roles : rol_de(usuario)
+  roles -> bd : grupos del usuario
+  roles --> inicio : Gerente, Cajero o Encargado
+  alt Cajero
+    inicio --> nav : redirige a /venta/
+  else Encargado de inventario
+    inicio --> nav : redirige a /productos/
+  else Gerente
+    inicio --> nav : redirige a /ventas/
+  else sin rol
+    inicio --> nav : "Tu usuario no tiene un rol asignado"
+  end
+end
+@enduml

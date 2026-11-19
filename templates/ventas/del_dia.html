@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static caja %}
+
+{% block titulo %}Ventas del día · ElectroHogar Ventas{% endblock %}
+{% block estilos %}<link rel="stylesheet" href="{% static 'css/venta.css' %}"><link rel="stylesheet" href="{% static 'css/dia.css' %}">{% endblock %}
+
+{% block contenido %}
+{% url 'ventas:del_dia' as base %}
+<div class="caja">
+
+  <section aria-label="Ventas del día">
+    <header class="dia__cabeza">
+      <h1>{% if dia == hoy %}Hoy, {% endif %}{{ dia|date:"l j \d\e F" }}</h1>
+      <nav class="dia__pasar" aria-label="Cambiar de día">
+        <a class="boton boton--chico" href="{{ base }}?dia={{ anterior|date:'Y-m-d' }}">← {{ anterior|date:"j M" }}</a>
+        <form method="get" action="{{ base }}">
+          <label for="dia" class="oculto">Otro día</label>
+          <input class="campo campo--fecha cifra" type="date" id="dia" name="dia" value="{{ dia|date:'Y-m-d' }}" max="{{ hoy|date:'Y-m-d' }}" onchange="this.form.submit()">
+        </form>
+        {% if dia < hoy %}
+        <a class="boton boton--chico" href="{{ base }}?dia={{ siguiente|date:'Y-m-d' }}">{{ siguiente|date:"j M" }} →</a>
+        <a href="{{ base }}">Volver a hoy</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <dl class="resumen">
+      <div class="resumen__cobrado"><dt>Cobrado</dt><dd class="cifra">{{ cobrado|soles }}</dd></div>
+      <div><dt>Ventas</dt><dd class="cifra">{{ cuantas }}</dd></div>
+      <div><dt>Anuladas</dt><dd class="cifra">{{ anuladas.n }}{% if anuladas.n %} <span class="suave">· {{ anuladas.t|soles }}</span>{% endif %}</dd></div>
+    </dl>
+
+    {% if ventas %}
+    {% if por_caja %}
+    <table class="tabla porcaja">
+      <caption>Cuadre por caja</caption>
+      <thead><tr><th>Cajero</th><th class="num">Ventas</th><th class="num">Cobrado</th></tr></thead>
+      <tbody>
+        {% for c in por_caja %}
+        <tr><td>{{ c.cajero__first_name|default:c.cajero__username }}</td><td class="num">{{ c.n }}</td><td class="num">{{ c.t|soles }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    <table class="tabla">
+      <thead><tr><th>N.º</th><th>Hora</th><th>Caja</th><th class="num">Unid.</th><th class="num">Total</th><th></th></tr></thead>
+      <tbody>
+        {% for v in ventas %}
+        <tr {% if v.pk == elegida.pk %}class="elegido" aria-current="true"{% endif %}>
+          <td class="cifra"><a href="{{ base }}?dia={{ dia|date:'Y-m-d' }}&v={{ v.pk }}">{{ v.pk|stringformat:"04d" }}</a></td>
+          <td class="cifra suave">{{ v.fecha|date:"H:i" }}</td>
+          <td>{{ v.cajero.first_name|default:v.cajero.username }}</td>
+          <td class="num">{{ v.unidades }}</td>
+          <td class="num{% if v.estado == 'anulada' %} tachado{% endif %}">{{ v.total|soles }}</td>
+          <td>{% if v.estado == 'anulada' %}<span class="falla">Anulada</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="vacio">No hubo ventas cobradas este día.</p>
+    {% endif %}
+  </section>
+
+  <aside class="talonario" aria-label="Detalle de la venta">
+    {% if elegida %}
+    <header class="talonario__cabeza">
+      <h2>Venta <span class="cifra">N.º {{ elegida.pk|stringformat:"04d" }}</span></h2>
+      <p class="suave">{{ elegida.fecha|date:"d/m/Y H:i" }} · Caja: {{ elegida.cajero.get_full_name|default:elegida.cajero.username }}</p>
+    </header>
+    <ol class="renglones">
+      {% for d in detalles %}
+      <li class="renglon">
+        <div class="renglon__que">
+          <strong>{{ d.producto.nombre }}</strong>
+          <span class="suave">{{ d.producto.marca }} {{ d.producto.modelo }}</span>
+          <span class="suave cifra">{{ d.cantidad }} × {{ d.precio_unitario|soles }}</span>
+        </div>
+        <span class="renglon__monto cifra">{{ d.subtotal|soles }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+    <footer class="talonario__pie">
+      <div class="total">
+        <span>Total</span>
+        <strong class="cifra{% if elegida.estado == 'anulada' %} tachado{% endif %}">{{ elegida.total|soles }}</strong>
+      </div>
+      {% if elegida.estado == 'anulada' %}
+      <p class="falla anulada">Anulada por {{ elegida.anulada_por.get_full_name|default:elegida.anulada_por.username }}: {{ elegida.motivo_anulacion }}</p>
+      {% else %}
+      <form method="post" action="{% url 'ventas:anular' elegida.pk %}" class="anular">
+        {% csrf_token %}
+        <label for="motivo">Motivo, si hay que anularla</label>
+        <input class="campo" id="motivo" name="motivo" maxlength="200" required placeholder="Por ejemplo: se cobró dos veces">
+        <button class="boton boton--peligro">Anular venta</button>
+        <p class="suave anular__nota">Los productos vuelven al stock y la venta deja de contar en el total del día.</p>
+      </form>
+      {% endif %}
+    </footer>
+    {% else %}
+    <p class="talonario__vacio suave">Elige una venta de la lista para ver su detalle. Si hay que anularla, se hace desde aquí.</p>
+    {% endif %}
+  </aside>
+
+</div>
+{% endblock %}

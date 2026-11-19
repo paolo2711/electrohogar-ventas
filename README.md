@@ -1,5 +1,7 @@
 # ElectroHogar Ventas
 
+[![Pruebas](https://github.com/paolo2711/electrohogar-ventas/actions/workflows/pruebas.yml/badge.svg?branch=develop)](https://github.com/paolo2711/electrohogar-ventas/actions/workflows/pruebas.yml)
+
 Sistema web de gestión de ventas para ElectroHogar Delgado, una tienda de electrodomésticos y línea blanca de San Miguel, Lima. La tienda se trabaja como caso de estudio: no existe y sus datos no corresponden a un negocio real.
 
 ## Módulos
@@ -27,13 +29,33 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py cargar_demo
 python manage.py runserver
 ```
 
-El panel de administración queda en `http://127.0.0.1:8000/admin/`.
+Se entra por `http://127.0.0.1:8000/` y cada usuario cae en la pantalla de su rol. El panel de administración, para crear productos y usuarios, queda en `/admin/`.
+
+`cargar_demo` crea los tres roles, 15 productos de la tienda y un usuario por rol, todos con la clave `electrohogar2026` (solo para la base local):
+
+| Usuario | Rol | Entra a |
+|---|---|---|
+| `rdelgado` | Gerente | Ventas del día, con anulación |
+| `mquispe` | Cajero | Venta |
+| `jflores` | Encargado de inventario | Productos y stock |
 
 Sin variables de entorno usa una base SQLite local. Para PostgreSQL se definen `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST` y `POSTGRES_PORT`. En producción también `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` y `DJANGO_ALLOWED_HOSTS`.
+
+## Entrega continua
+
+Cada versión se publica sola al crear su tag (`git tag v0.2.0 && git push origin v0.2.0`). El workflow `entrega.yml` corre las pruebas, construye la imagen Docker, la sube a GitHub Packages y crea la release con las notas del CHANGELOG.
+
+Para levantar una versión publicada:
+
+```
+docker run -p 8000:8000   -e DJANGO_SECRET_KEY=... -e DJANGO_DEBUG=0 -e DJANGO_ALLOWED_HOSTS=localhost   -e POSTGRES_DB=... -e POSTGRES_USER=... -e POSTGRES_PASSWORD=... -e POSTGRES_HOST=...   ghcr.io/paolo2711/electrohogar-ventas:0.2.0
+```
+
+Al arrancar aplica las migraciones pendientes.
 
 ## Flujo de trabajo
 
@@ -47,7 +69,12 @@ El repositorio sigue Gitflow.
 | `release/*` | Preparación de una versión antes de pasarla a `main` |
 | `hotfix/*` | Correcciones urgentes sobre `main` |
 
-Todo cambio entra a `develop` por pull request. Los mensajes de commit van en español y describen qué se hizo.
+Todo cambio entra a `develop` por pull request, y GitHub Actions corre las pruebas en cada una (`.github/workflows/pruebas.yml`). Si fallan, no se fusiona. Los mensajes de commit van en español y describen qué se hizo.
+
+## Comunicación del equipo
+
+- **Slack**, espacio `electrohogar-ventas`. El canal `#todo-electrohogar-ventas` tiene conectada la app de GitHub, así que avisa solo cuando se abre una tarjeta o una pull request, cuando entra un commit a `main` y cuando se publica una versión.
+- **Tablero** en GitHub Projects, con una tarjeta por tarea, su responsable y su prioridad.
 
 ## Estructura
 

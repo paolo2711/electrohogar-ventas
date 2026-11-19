@@ -1,0 +1,14 @@
+/* Pantalla de inicio de sesión: alineada a la izquierda, el formulario directo sobre el papel */
+.entrar {
+  width: min(360px, 100%);
+  margin: 18vh 0 0 max(var(--e5), 12vw);
+}
+
+.entrar__tienda { margin-bottom: var(--e6); padding-bottom: var(--e4); border-bottom: 1px solid var(--tinta); }
+.entrar__tienda p { margin: 0; }
+.entrar__nombre { font-size: 28px; font-weight: 700; }
+
+.entrar__hoja { display: grid; gap: var(--e4); }
+.entrar__hoja h1 { font-size: 20px; }
+.entrar__hoja .mensaje { margin: 0; }
+.entrar__hoja .boton { margin-top: var(--e2); justify-self: start; min-width: 160px; }

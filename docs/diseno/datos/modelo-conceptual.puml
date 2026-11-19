@@ -1,0 +1,52 @@
+@startchen
+skinparam defaultFontName Arial
+skinparam dpi 150
+skinparam shadowing false
+skinparam backgroundColor #FFFFFF
+entity USUARIO {
+}
+entity ROL {
+}
+entity CATEGORIA {
+}
+entity PRODUCTO {
+}
+entity MOVIMIENTOSTOCK {
+}
+entity VENTA {
+}
+entity DETALLEVENTA {
+}
+relationship AGRUPA {
+}
+relationship CAMBIA_POR {
+}
+relationship REGISTRA {
+}
+relationship COBRA {
+}
+relationship ANULA {
+}
+relationship CONTIENE {
+}
+relationship SE_VENDE_EN {
+}
+relationship TIENE {
+}
+CATEGORIA -1- AGRUPA
+AGRUPA -N- PRODUCTO
+PRODUCTO -1- CAMBIA_POR
+CAMBIA_POR -N- MOVIMIENTOSTOCK
+USUARIO -1- REGISTRA
+REGISTRA -N- MOVIMIENTOSTOCK
+USUARIO -1- COBRA
+COBRA -N- VENTA
+USUARIO -1- ANULA
+ANULA -N- VENTA
+VENTA -1- CONTIENE
+CONTIENE -N- DETALLEVENTA
+PRODUCTO -1- SE_VENDE_EN
+SE_VENDE_EN -N- DETALLEVENTA
+USUARIO -N- TIENE
+TIENE -M- ROL
+@endchen

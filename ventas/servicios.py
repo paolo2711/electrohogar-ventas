@@ -1,5 +1,6 @@
 """Confirmar y anular ventas (casos de uso CU11 y CU12)."""
 from django.db import transaction
+from django.utils import timezone
 
 from inventario.models import MovimientoStock
 from inventario.servicios import registrar_movimiento
@@ -30,7 +31,9 @@ def confirmar_venta(venta, cajero):
 
     venta.total = venta.calcular_total()
     venta.estado = Venta.CONFIRMADA
-    venta.save(update_fields=['total', 'estado'])
+    # La venta cuenta desde que se cobra, no desde que se agregó el primer producto (#37).
+    venta.fecha = timezone.now()
+    venta.save(update_fields=['total', 'estado', 'fecha'])
     return venta
 
 

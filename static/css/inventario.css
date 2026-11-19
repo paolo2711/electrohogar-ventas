@@ -1,0 +1,72 @@
+/* Productos y stock: la lista a la izquierda, el kárdex del producto elegido a la derecha */
+.almacen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 460px;
+  gap: var(--e5);
+  align-items: start;
+}
+
+.almacen__cabeza { display: flex; gap: var(--e4); align-items: center; margin-bottom: var(--e4); }
+.almacen__cabeza .buscar { flex: 1; }
+
+/* Filtro como pestañas de archivador: subrayado en el que está activo */
+.filtro { display: flex; gap: var(--e1); }
+.filtro a {
+  padding: var(--e2) var(--e3); white-space: nowrap;
+  text-decoration: none; color: var(--tinta-suave);
+}
+.filtro a .cifra { font-size: 14px; }
+.filtro a[aria-current] { color: var(--tinta); font-weight: 700; box-shadow: inset 0 -2px 0 var(--sello); }
+
+.almacen__ver { text-decoration: none; }
+.almacen__ver:hover strong { text-decoration: underline; }
+.tabla tr.elegido td { background: var(--sello-claro); }
+.almacen__nota { font-size: 14px; margin-top: var(--e4); }
+.vacio { padding: var(--e6) 0; color: var(--tinta-suave); }
+
+/* El kárdex: la ficha del producto, la única caja de la pantalla */
+.kardex {
+  position: sticky; top: var(--e5);
+  background: var(--hoja);
+  border: 1px solid var(--renglon);
+  border-radius: var(--esquina);
+}
+.kardex__cabeza { padding: var(--e4) var(--e5); border-bottom: 1px dashed var(--renglon); }
+.kardex__cabeza p { margin: var(--e1) 0 0; }
+.kardex__cabeza .kardex__rotulo { font-size: 13px; margin: 0 0 var(--e1); }
+.kardex__stock { display: flex; gap: var(--e6); margin: var(--e4) 0 0; }
+.kardex__stock dt { font-size: 13px; color: var(--tinta-suave); }
+.kardex__stock dd { margin: 0; font-size: 36px; font-weight: 700; line-height: 1.1; }
+.kardex__vacio { padding: var(--e6) var(--e5); margin: 0; }
+
+.kardex__registrar { display: grid; gap: var(--e4); padding: var(--e4) var(--e5); border-bottom: 1px solid var(--tinta); }
+.kardex__campos { display: grid; grid-template-columns: 120px 1fr; gap: var(--e3); }
+.kardex__registrar .boton { justify-self: start; min-width: 160px; }
+.campo__error { margin: var(--e1) 0 0; font-size: 14px; }
+
+/* Dos opciones excluyentes como un interruptor de dos posiciones */
+.eleccion { display: flex; margin: 0; padding: 0; border: 0; }
+.eleccion label {
+  flex: 1; margin: 0; padding: var(--e2) var(--e3);
+  border: 1px solid var(--renglon); color: var(--tinta);
+  font-size: 15px; text-align: center; cursor: pointer;
+}
+.eleccion label:first-of-type { border-radius: var(--esquina) 0 0 var(--esquina); }
+.eleccion label:last-of-type { border-radius: 0 var(--esquina) var(--esquina) 0; border-left: 0; }
+.eleccion input { position: absolute; opacity: 0; }
+.eleccion label:has(input:checked) { background: var(--tinta); border-color: var(--tinta); color: var(--hoja); font-weight: 700; }
+.eleccion label:has(input:focus-visible) { outline: 3px solid var(--sello); outline-offset: 2px; }
+
+.kardex__movs caption { text-align: left; font-size: 13px; padding: var(--e3) var(--e5) var(--e1); }
+.kardex__movs th:first-child, .kardex__movs td:first-child { padding-left: var(--e5); }
+.kardex__movs th:last-child, .kardex__movs td:last-child { padding-right: var(--e5); }
+.kardex__movs td { font-size: 14px; height: 40px; }
+.kardex__movs tr:last-child td { border-bottom: 0; }
+.kardex__fecha { font-size: 13px; line-height: 1.25; white-space: nowrap; }
+.kardex__detalle { display: block; font-size: 13px; }
+
+@media (max-width: 1000px) {
+  .almacen { grid-template-columns: 1fr; }
+  .kardex { position: static; }
+  .almacen__cabeza { flex-wrap: wrap; }
+}

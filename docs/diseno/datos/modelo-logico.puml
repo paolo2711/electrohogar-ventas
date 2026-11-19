@@ -1,0 +1,81 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam classBorderColor #333333
+skinparam classBackgroundColor #FFFFFF
+skinparam classHeaderBackgroundColor #F7F7F7
+hide circle
+hide empty methods
+entity "Usuario" as Usuario {
+  {field} <b>PK</b> id: entero
+  {field} password: texto(128)
+  {field} username: texto(150)
+  {field} first_name: texto(150)
+  {field} last_name: texto(150)
+  {field} is_staff: lógico
+  {field} is_active: lógico
+}
+entity "Rol" as Rol {
+  {field} <b>PK</b> id: entero
+  {field} name: texto(150)
+}
+entity "Categoria" as Categoria {
+  {field} <b>PK</b> id: entero
+  {field} nombre: texto(60)
+}
+entity "Producto" as Producto {
+  {field} <b>PK</b> id: entero
+  {field} codigo: texto(20)
+  {field} nombre: texto(120)
+  {field} marca: texto(60)
+  {field} modelo: texto(60)
+  {field} <b>FK</b> categoria_id: entero
+  {field} precio_venta: decimal(10,2)
+  {field} costo: decimal(10,2)
+  {field} stock_actual: entero ≥ 0
+  {field} stock_minimo: entero ≥ 0
+  {field} imagen: texto(100), ruta de la imagen
+  {field} activo: lógico
+}
+entity "MovimientoStock" as MovimientoStock {
+  {field} <b>PK</b> id: entero
+  {field} <b>FK</b> producto_id: entero
+  {field} tipo: texto(10)
+  {field} cantidad: entero
+  {field} <b>FK</b> usuario_id: entero
+  {field} fecha: fecha y hora
+  {field} motivo: texto(200)
+}
+entity "Venta" as Venta {
+  {field} <b>PK</b> id: entero
+  {field} fecha: fecha y hora
+  {field} <b>FK</b> cajero_id: entero
+  {field} estado: texto(10)
+  {field} total: decimal(12,2)
+  {field} <b>FK</b> anulada_por_id: entero, opcional
+  {field} motivo_anulacion: texto(200)
+}
+entity "DetalleVenta" as DetalleVenta {
+  {field} <b>PK</b> id: entero
+  {field} <b>FK</b> venta_id: entero
+  {field} <b>FK</b> producto_id: entero
+  {field} cantidad: entero ≥ 0
+  {field} precio_unitario: decimal(10,2)
+}
+entity "UsuarioRol" as UsuarioRol {
+  {field} <b>PK</b> id: entero
+  {field} <b>FK</b> user_id: entero
+  {field} <b>FK</b> group_id: entero
+}
+Categoria ||--o{ Producto
+Producto ||--o{ MovimientoStock
+Usuario ||--o{ MovimientoStock
+Venta ||--|{ DetalleVenta
+Producto ||--o{ DetalleVenta
+Usuario ||--o{ Venta
+Usuario |o--o{ Venta
+Usuario ||--o{ UsuarioRol
+Rol ||--o{ UsuarioRol
+@enduml

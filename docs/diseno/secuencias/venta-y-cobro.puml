@@ -1,0 +1,53 @@
+@startuml
+!include ../estilo.iuml
+skinparam dpi 150
+skinparam sequenceParticipantBorderColor #333333
+skinparam sequenceParticipantBackgroundColor #FFFFFF
+skinparam sequenceLifeLineBorderColor #888888
+skinparam sequenceGroupBorderColor #888888
+title Venta y cobro (CU10 y CU11)
+
+actor Cajero
+participant "Navegador" as nav
+participant "ventas.views" as vista
+participant "ventas.servicios" as serv
+participant "inventario.servicios" as inv
+database "Base de datos" as bd
+
+Cajero -> nav : busca el producto
+nav -> vista : GET /venta/?q=...
+vista -> bd : productos activos que coinciden
+vista --> nav : lista con stock y precio
+
+Cajero -> nav : Agregar (o Enter)
+nav -> vista : POST /venta/agregar/<id>/
+vista -> bd : venta en curso de la sesión (la crea si no hay)
+alt pedidas > stock_actual
+  vista --> nav : "No alcanza el stock: de ... quedan N"
+else hay stock
+  vista -> bd : crea o suma el DetalleVenta
+  vista --> nav : talonario con el nuevo total
+end
+
+Cajero -> nav : Cobrar (F9)
+nav -> vista : POST /venta/cobrar/
+vista -> serv : confirmar_venta(venta, cajero)
+group transacción atómica
+  serv -> bd : SELECT ... FOR UPDATE de la venta
+  loop cada detalle
+    serv -> inv : registrar_movimiento(producto, VENTA, -cantidad)
+    inv -> bd : SELECT ... FOR UPDATE del producto
+    alt stock insuficiente
+      inv --> serv : StockInsuficiente
+      serv --> vista : se deshace todo (rollback)
+      vista --> nav : "No se cobró: de ... ya no alcanza el stock"
+    else alcanza
+      inv -> bd : stock_actual -= cantidad
+      inv -> bd : INSERT MovimientoStock (autor y motivo)
+    end
+  end
+  serv -> bd : estado = CONFIRMADA, total, fecha del cobro
+end
+serv --> vista : venta confirmada
+vista --> nav : "Venta 0001 cobrada por S/ ..."
+@enduml

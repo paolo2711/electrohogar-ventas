@@ -1,0 +1,129 @@
+/* Estilos base de ElectroHogar Ventas. Los valores salen de docs/identidad-visual.md:
+   si algo cambia, se cambia allá primero. */
+
+:root {
+  --papel: #F4EFE6;
+  --hoja: #FBF8F2;
+  --renglon: #DCD3C4;
+  --tinta: #221E19;
+  --tinta-suave: #6A6158;
+  --sello: #A8442A;
+  --sello-oscuro: #8A3722;
+  --sello-claro: #F2DDD3;
+  --bien: #2E6B45;
+  --aviso: #8A6414;
+  --falla: #9B2C2C;
+
+  --letra: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --cifra: 'Atkinson Hyperlegible Mono', ui-monospace, monospace;
+
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 16px; --e5: 24px; --e6: 32px; --e7: 48px;
+  --esquina: 3px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--letra);
+  line-height: 1.45;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
+h1 { font-size: 28px; }
+h2 { font-size: 20px; }
+
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sello); outline-offset: 2px; }
+
+.cifra { font-family: var(--cifra); font-variant-numeric: tabular-nums; }
+.suave { color: var(--tinta-suave); }
+
+/* Barra superior: el nombre de la tienda a la izquierda, quién atiende a la derecha */
+.barra {
+  display: flex; align-items: center; gap: var(--e5);
+  padding: 0 var(--e5);
+  height: 56px;
+  border-bottom: 1px solid var(--renglon);
+  background: var(--hoja);
+}
+.barra__tienda { font-weight: 700; font-size: 18px; text-decoration: none; }
+.barra nav { display: flex; gap: var(--e1); }
+.barra nav a {
+  padding: var(--e2) var(--e3);
+  border-radius: var(--esquina);
+  text-decoration: none;
+  color: var(--tinta-suave);
+}
+.barra nav a[aria-current="page"] { color: var(--tinta); box-shadow: inset 0 -2px 0 var(--sello); }
+.barra__quien { margin-left: auto; color: var(--tinta-suave); font-size: 14px; }
+.barra__salir { min-height: 36px; font-weight: 400; }
+
+main { padding: var(--e5); }
+
+/* Botones: uno principal por pantalla, el resto en contorno */
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--e2);
+  min-height: 48px;
+  padding: 0 var(--e4);
+  border: 1px solid var(--renglon);
+  border-radius: var(--esquina);
+  background: var(--hoja);
+  color: var(--tinta);
+  font: inherit; font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+.boton:hover { border-color: var(--tinta-suave); }
+.boton--principal {
+  min-height: 56px;
+  border-color: var(--sello);
+  background: var(--sello);
+  color: var(--hoja);
+}
+.boton--principal:hover, .boton--principal:active { background: var(--sello-oscuro); border-color: var(--sello-oscuro); }
+.boton[disabled] { opacity: .45; cursor: not-allowed; }
+.atajo {
+  font-family: var(--cifra); font-size: 12px; font-weight: 400;
+  padding: 1px 5px; border: 1px solid currentColor; border-radius: var(--esquina); opacity: .8;
+}
+
+/* Campos */
+.campo {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--e3);
+  border: 1px solid var(--renglon);
+  border-radius: var(--esquina);
+  background: var(--hoja);
+  color: var(--tinta);
+  font: inherit;
+}
+.campo:focus { border-color: var(--sello); outline: none; box-shadow: 0 0 0 3px var(--sello-claro); }
+label { display: block; font-size: 14px; color: var(--tinta-suave); margin-bottom: var(--e1); }
+
+/* Tablas: renglones finos, cifras a la derecha */
+.tabla { width: 100%; border-collapse: collapse; background: var(--hoja); }
+.tabla th {
+  text-align: left; font-size: 13px; font-weight: 700; color: var(--tinta-suave);
+  padding: var(--e2) var(--e3); border-bottom: 1px solid var(--tinta);
+}
+.tabla td { padding: var(--e3); border-bottom: 1px solid var(--renglon); height: 48px; }
+.tabla .num { text-align: right; font-family: var(--cifra); font-variant-numeric: tabular-nums; }
+/* Códigos, horas y montos no se parten en dos líneas (#47) */
+.tabla .cifra, .tabla .num { white-space: nowrap; }
+
+/* Mensajes: una frase en el color del estado, sin caja alrededor */
+.mensaje { margin: 0 0 var(--e4); font-weight: 700; }
+.mensaje--bien { color: var(--bien); }
+.mensaje--falla { color: var(--falla); }
+.mensaje--aviso { color: var(--aviso); }
+
+.aviso { color: var(--aviso); font-weight: 700; }
+.falla { color: var(--falla); font-weight: 700; }
+
+/* Texto solo para lectores de pantalla */
+.oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
