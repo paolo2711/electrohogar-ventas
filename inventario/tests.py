@@ -115,4 +115,7 @@ class PantallaDeInventario(TestCase):
 
     def test_el_cajero_no_entra(self):
         self.client.login(username='mquispe', password='electrohogar2026')
-        self.assertEqual(self.client.get(reverse('inventario:productos')).status_code, 403)
+        r = self.client.get(reverse('inventario:productos'))
+        # Ve la página de la tienda con el camino de vuelta, no un 403 en blanco (#50).
+        self.assertContains(r, 'no es para tu usuario', status_code=403)
+        self.assertContains(r, 'Ir a mi pantalla', status_code=403)

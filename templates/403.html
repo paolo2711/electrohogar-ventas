@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Sin permiso · ElectroHogar Ventas{% endblock %}
+
+{% block contenido %}
+<h1>Esta pantalla no es para tu usuario</h1>
+<p>La usa otro puesto de la tienda. Si crees que deberías poder entrar, pídele al gerente que revise tu rol.</p>
+<p><a class="boton" href="{% url 'inicio' %}">Ir a mi pantalla</a></p>
+{% endblock %}
