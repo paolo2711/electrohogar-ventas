@@ -2,6 +2,7 @@ from decimal import Decimal
 from io import StringIO
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
@@ -48,6 +49,45 @@ class MovimientosDeStock(TestCase):
         mov = ajustar_a_conteo(self.producto, 3, self.usuario, 'Conteo del sábado')
         self.assertEqual(mov.cantidad, -2)
         self.assertIsNone(ajustar_a_conteo(self.producto, 3, self.usuario, 'Otra vez'))
+
+    def test_un_conteo_igual_al_stock_no_registra_ningun_movimiento(self):
+        registrar_movimiento(self.producto, MovimientoStock.INGRESO, 5, self.usuario)
+        self.assertIsNone(ajustar_a_conteo(self.producto, 5, self.usuario, 'Conteo del lunes'))
+        self.producto.refresh_from_db()
+        self.assertEqual(self.producto.stock_actual, 5)
+        self.assertEqual(self.producto.movimientos.count(), 1)
+
+
+class ValidacionDePrecios(TestCase):
+    """El precio y el costo de un producto tienen que tener sentido (#60)."""
+
+    def producto(self, precio, costo):
+        return Producto(
+            codigo='TV-900', nombre='Televisor', marca='LG', modelo='X1',
+            categoria=Categoria.objects.create(nombre='Televisores'),
+            precio_venta=Decimal(precio), costo=Decimal(costo),
+        )
+
+    def test_un_precio_correcto_es_valido(self):
+        self.producto('1000.00', '800.00').full_clean()
+
+    def test_el_precio_puede_ser_igual_al_costo(self):
+        self.producto('500.00', '500.00').full_clean()
+
+    def test_el_precio_en_cero_no_es_valido(self):
+        with self.assertRaises(ValidationError) as e:
+            self.producto('0.00', '0.00').full_clean()
+        self.assertIn('precio_venta', e.exception.message_dict)
+
+    def test_el_costo_negativo_no_es_valido(self):
+        with self.assertRaises(ValidationError) as e:
+            self.producto('100.00', '-5.00').full_clean()
+        self.assertIn('costo', e.exception.message_dict)
+
+    def test_el_precio_no_puede_ser_menor_que_el_costo(self):
+        with self.assertRaises(ValidationError) as e:
+            self.producto('100.00', '150.00').full_clean()
+        self.assertIn('precio_venta', e.exception.message_dict)
 
 
 class CargaDeDemo(TestCase):
