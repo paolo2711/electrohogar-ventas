@@ -206,6 +206,23 @@ class VentasDelDia(TestCase):
         self.assertEqual(r.context['cuantas'], 0)
         self.assertContains(r, 'No hubo ventas')
 
+    def test_el_reporte_suma_las_unidades_por_producto(self):
+        r = self.client.get(reverse('ventas:del_dia'))
+        filas = list(r.context['por_producto'])
+        self.assertEqual(len(filas), 1)
+        self.assertEqual(filas[0]['producto__nombre'], 'Licuadora 1,5 L')
+        self.assertEqual(filas[0]['unidades'], 3)
+        self.assertEqual(filas[0]['importe'], Decimal('567.00'))
+        self.assertContains(r, 'Por producto')
+
+    def test_las_ventas_anuladas_no_cuentan_en_el_reporte_por_producto(self):
+        gerente = get_user_model().objects.get(username='rdelgado')
+        anular_venta(self.v2, gerente, 'Se cobró dos veces')
+        r = self.client.get(reverse('ventas:del_dia'))
+        filas = list(r.context['por_producto'])
+        self.assertEqual(filas[0]['unidades'], 2)
+        self.assertEqual(filas[0]['importe'], Decimal('378.00'))
+
     def test_una_fecha_invalida_muestra_el_dia_de_hoy(self):
         r = self.client.get(reverse('ventas:del_dia'), {'dia': 'no-es-una-fecha'})
         self.assertEqual(r.status_code, 200)

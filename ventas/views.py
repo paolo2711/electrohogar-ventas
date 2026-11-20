@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from django.db.models import Count, Q, Sum
+from django.db.models import Count, DecimalField, ExpressionWrapper, F, Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -133,6 +133,14 @@ def del_dia(request):
         # Para el cuadre de caja: lo que cobró cada cajero.
         'por_caja': cobradas.values('cajero__first_name', 'cajero__username')
                             .annotate(n=Count('id'), t=Sum('total')).order_by('-t'),
+        # Qué se llevó la gente ese día: lo más vendido primero (#62). Las anuladas no entran.
+        'por_producto': DetalleVenta.objects.filter(venta__in=cobradas)
+                                    .values('producto__nombre', 'producto__marca', 'producto__modelo')
+                                    .annotate(unidades=Sum('cantidad'),
+                                              importe=Sum(ExpressionWrapper(
+                                                  F('cantidad') * F('precio_unitario'),
+                                                  output_field=DecimalField(max_digits=12, decimal_places=2))))
+                                    .order_by('-unidades', '-importe'),
         'elegida': elegida,
         'detalles': elegida.detalles.select_related('producto') if elegida else [],
     })

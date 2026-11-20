@@ -43,6 +43,18 @@
     </table>
     {% endif %}
 
+    {% if por_producto %}
+    <table class="tabla porcaja">
+      <caption>Por producto</caption>
+      <thead><tr><th>Producto</th><th class="num">Unid.</th><th class="num">Cobrado</th></tr></thead>
+      <tbody>
+        {% for p in por_producto %}
+        <tr><td><strong>{{ p.producto__nombre }}</strong> <span class="suave">{{ p.producto__marca }} {{ p.producto__modelo }}</span></td><td class="num">{{ p.unidades }}</td><td class="num">{{ p.importe|soles }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
     <table class="tabla">
       <thead><tr><th>N.º</th><th>Hora</th><th>Caja</th><th class="num">Unid.</th><th class="num">Total</th><th></th></tr></thead>
       <tbody>
