@@ -41,3 +41,16 @@ class ModeloDeDatos(TestCase):
         spec.loader.exec_module(datos)
         guardado = (ruta.parent / 'datos' / 'esquema.sql').read_text(encoding='utf-8')
         self.assertEqual(datos.esquema_sql(), guardado, 'esquema.sql está desactualizado: corre docs/diseno/datos.py')
+
+
+class Estilos(TestCase):
+    def test_toda_variable_usada_en_los_estilos_esta_definida(self):
+        """Si se borra una variable de base.css, las pruebas no lo notaban (#64)."""
+        import re
+        from pathlib import Path
+
+        css = Path(__file__).resolve().parents[1] / 'static' / 'css'
+        definidas = set(re.findall(r'(--[\w-]+)\s*:', (css / 'base.css').read_text(encoding='utf-8')))
+        for archivo in css.glob('*.css'):
+            usadas = set(re.findall(r'var\((--[\w-]+)\)', archivo.read_text(encoding='utf-8')))
+            self.assertFalse(usadas - definidas, f'{archivo.name} usa variables que no existen')
