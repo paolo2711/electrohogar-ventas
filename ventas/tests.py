@@ -85,6 +85,14 @@ class ConfirmarYAnular(TestCase):
         with self.assertRaises(VentaNoValida):
             anular_venta(v, self.gerente, '')
 
+    def test_no_se_anula_dos_veces(self):
+        v = confirmar_venta(self.venta((self.micro, 1)), self.cajero)
+        anular_venta(v, self.gerente, 'El cliente se arrepintió')
+        with self.assertRaises(VentaNoValida):
+            anular_venta(v, self.gerente, 'Otra vez')
+        # Las unidades volvieron una sola vez: 5 al inicio, 4 tras la venta, 5 tras anular.
+        self.assertEqual(self.stock(self.micro), 5)
+
 
 class PantallaDeVenta(TestCase):
     """La pantalla del cajero: agregar, quitar y cobrar desde el navegador."""
