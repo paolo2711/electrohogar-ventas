@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from inventario.models import Categoria, MovimientoStock, Producto
 from inventario.servicios import StockInsuficiente, registrar_movimiento
@@ -92,6 +93,13 @@ class ConfirmarYAnular(TestCase):
             anular_venta(v, self.gerente, 'Otra vez')
         # Las unidades volvieron una sola vez: 5 al inicio, 4 tras la venta, 5 tras anular.
         self.assertEqual(self.stock(self.micro), 5)
+
+    def test_no_se_confirma_una_venta_sin_productos(self):
+        v = Venta.objects.create(cajero=self.cajero)
+        with self.assertRaises(VentaNoValida):
+            confirmar_venta(v, self.cajero)
+        v.refresh_from_db()
+        self.assertEqual(v.estado, Venta.REGISTRADA)
 
 
 class PantallaDeVenta(TestCase):
@@ -197,6 +205,12 @@ class VentasDelDia(TestCase):
         r = self.client.get(reverse('ventas:del_dia'), {'dia': '2026-01-05'})
         self.assertEqual(r.context['cuantas'], 0)
         self.assertContains(r, 'No hubo ventas')
+
+    def test_una_fecha_invalida_muestra_el_dia_de_hoy(self):
+        r = self.client.get(reverse('ventas:del_dia'), {'dia': 'no-es-una-fecha'})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.context['dia'], timezone.localdate())
+        self.assertEqual(r.context['cuantas'], 2)
 
     def test_anular_devuelve_el_stock_y_sale_del_total(self):
         r = self.client.post(reverse('ventas:anular', args=[self.v1.pk]), {'motivo': 'Se cobró dos veces'}, follow=True)
