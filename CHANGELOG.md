@@ -6,6 +6,8 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 ### Corregido
 
+- Faltaban las variables `--tinta` y `--tinta-suave` desde el cambio de paleta; una prueba revisa ahora que toda variable usada esté definida (#64).
+
 - Aviso de WhiteNoise por la carpeta `staticfiles` al trabajar en desarrollo; ahora se activa solo con DEBUG apagado (#55).
 
 ### Agregado
