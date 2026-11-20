@@ -1,4 +1,8 @@
+from decimal import Decimal
+
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -20,8 +24,10 @@ class Producto(models.Model):
     modelo = models.CharField(max_length=60)
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='productos',
                                   verbose_name='categoría')
-    precio_venta = models.DecimalField('precio de venta', max_digits=10, decimal_places=2)
-    costo = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_venta = models.DecimalField('precio de venta', max_digits=10, decimal_places=2,
+                                       validators=[MinValueValidator(Decimal('0.01'), 'El precio debe ser mayor que cero.')])
+    costo = models.DecimalField(max_digits=10, decimal_places=2,
+                                validators=[MinValueValidator(Decimal('0.01'), 'El costo debe ser mayor que cero.')])
     # El stock no se edita a mano: cambia solo con un MovimientoStock.
     stock_actual = models.PositiveIntegerField('stock actual', default=0, editable=False)
     stock_minimo = models.PositiveIntegerField('stock mínimo', default=0)
@@ -34,6 +40,11 @@ class Producto(models.Model):
 
     def __str__(self):
         return f'{self.nombre} {self.marca} {self.modelo}'
+
+    def clean(self):
+        # Vender por debajo del costo es casi siempre un error de digitación (#60).
+        if self.precio_venta is not None and self.costo is not None and self.precio_venta < self.costo:
+            raise ValidationError({'precio_venta': 'El precio de venta no puede ser menor que el costo.'})
 
     @property
     def bajo_minimo(self):
