@@ -4,6 +4,10 @@ Los cambios de cada versión se anotan aquí. Las versiones siguen el formato `M
 
 ## [Sin publicar]
 
+### Corregido
+
+- Aviso de WhiteNoise por la carpeta `staticfiles` al trabajar en desarrollo; ahora se activa solo con DEBUG apagado (#55).
+
 ### Agregado
 
 - Simulaciones reproducibles (`docs/simulaciones/simular.py`): ocho escenarios sobre una base aparte, con captura de cada pantalla. La base SQLite se puede elegir con `DJANGO_SQLITE`.
