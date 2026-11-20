@@ -49,6 +49,13 @@ class MovimientosDeStock(TestCase):
         self.assertEqual(mov.cantidad, -2)
         self.assertIsNone(ajustar_a_conteo(self.producto, 3, self.usuario, 'Otra vez'))
 
+    def test_un_conteo_igual_al_stock_no_registra_ningun_movimiento(self):
+        registrar_movimiento(self.producto, MovimientoStock.INGRESO, 5, self.usuario)
+        self.assertIsNone(ajustar_a_conteo(self.producto, 5, self.usuario, 'Conteo del lunes'))
+        self.producto.refresh_from_db()
+        self.assertEqual(self.producto.stock_actual, 5)
+        self.assertEqual(self.producto.movimientos.count(), 1)
+
 
 class CargaDeDemo(TestCase):
     def test_carga_roles_usuarios_y_productos_sin_duplicar(self):
